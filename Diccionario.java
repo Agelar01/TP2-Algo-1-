@@ -4,8 +4,6 @@ public interface Diccionario {
 
     public void definir(T clave, T valor);
 
-    public void definirRapido(T clave, T valor);
-
     public T obtener(T clave);
 
     public void borrar(T clave);
