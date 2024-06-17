@@ -29,7 +29,7 @@ public class Trie2 {
         return tamaño;
     }
 
-        public boolean está(String clave) {
+    public boolean está(String clave) {
         Nodo actual = raiz;
         //int indice = 0;
         char[] listaClave = clave.toCharArray();
@@ -38,7 +38,7 @@ public class Trie2 {
             return false;
         }
 
-        if (listaClave.lenght == 0){ // si clave == "" digo false
+        if (listaClave.lenght == 0){ // si clave == "" digo false, excede los 256 caracteres de ascii me parece
             return false; // no me fijé en la especificación, quizás esto está de más
         }
         else {
@@ -82,8 +82,8 @@ public class Trie2 {
             return false;
         }
 
-        if (listaClave.lenght == 0){ // si clave == "" digo false
-            return raiz.definicion; // no me fijé en la especificación, quizás está de más esto
+        if (listaClave.lenght == 0){ // si clave == ""
+            return false; // quizás return null?
         } else {
             for (int indice = 0; indice < listaClave.length; indice++){
                 if (indice = listaClave.length -1){ // si estoy al final de la clave
@@ -98,5 +98,46 @@ public class Trie2 {
                 }
             }
         }
+    }
+
+    public void definir(String clave, T valor){
+        Nodo actual = raiz;
+        char[] listaClave = clave.toCharArray();
+        if (raiz != null) { // probablemente al pedo
+            if (listaClave.length == 0){ // probablemente al pedo, ya lo hace Nodo()
+                raiz.definicion = null;
+            } else if (listaClave.length == 1){ //clave con un caracter
+                if (raiz.hijos.get((int) listaClave[0]) == null){
+                    Nodo nuevo = new Nodo();
+                    raiz.hijos.add(nuevo);
+                    nuevo.definicion = valor;
+                    tamaño++;
+                    //actual = nuevo; 
+                } else {
+                    actual = raiz.hijos.get((int) listaClave[0]);
+                    actual.definicion = valor;
+                }
+            } else { //clave con varios caracteres
+                for (int indice = 0; indice < listaClave.length -1; indice++){  // avanzo/agrego nodos con todos los caracteres menos el último
+                    if (actual.hijos.get((int) listaClave[indice]) == null){
+                        Nodo nuevo = new Nodo();
+                        actual.hijos.add(nuevo);
+                        actual = nuevo;
+                        tamaño++;
+                    } else {
+                        actual = actual.hijos.get((int) listaClave[indice]);   
+                    }
+                }
+                //cuando estoy en el último caracter de la clave
+                if (actual.hijos.get((int) listaClave[listaClave.length -1]) == null){
+                    Nodo nuevo = new Nodo();
+                    nuevo.definicion = valor;
+                    tamaño++;
+                } else {
+                    actual.hijos.get((int) listaClave[listaClave.length -1]).definicion = valor;
+                }
+
+            } 
+        } 
     }
 }
