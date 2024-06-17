@@ -67,4 +67,30 @@ public class Trie2 {
                 }*/
         }        
     }
+    
+    public T obtener(String clave){
+        Nodo actual = raiz;
+        char[] listaClave = clave.toCharArray();
+        
+        if (raiz == null) {
+            return false;
+        }
+
+        if (listaClave.lenght == 0){ // si clave == "" digo false
+            return raiz.definicion; // no me fijé en la especificación, quizás está de más esto
+        } else {
+            for (int indice = 0; indice < listaClave.length; indice++){
+                if (indice = listaClave.length -1){ // si estoy al final de la clave
+                    return actual.definicion;
+
+                } else { // si no estoy al final de la clave, avanzo
+                    if (actual == null){
+                        return false; // no puedo llegar al nodo que representa la clave
+                    } else {
+                        actual = actual.hijos.get((int) listaClave[indice]);
+                    }
+                }
+            }
+        }
+    }
 }
