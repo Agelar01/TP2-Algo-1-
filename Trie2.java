@@ -36,7 +36,7 @@ public class Trie2 {
         
         
         if (listaClave.lenght == 0){ // si clave == "" digo false
-            return false;
+            return false; // no me fijé en la especificación, quizás está de más esto
         }
         else {
             for (int indice = 0; indice < listaClave.length; indice++){
