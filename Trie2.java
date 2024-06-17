@@ -29,14 +29,17 @@ public class Trie2 {
         return tamaño;
     }
 
-    public boolean está(String clave) {
+        public boolean está(String clave) {
         Nodo actual = raiz;
         //int indice = 0;
         char[] listaClave = clave.toCharArray();
         
-        
+        if (raiz == null) {
+            return false;
+        }
+
         if (listaClave.lenght == 0){ // si clave == "" digo false
-            return false; // no me fijé en la especificación, quizás está de más esto
+            return false; // no me fijé en la especificación, quizás esto está de más
         }
         else {
             for (int indice = 0; indice < listaClave.length; indice++){
@@ -47,10 +50,13 @@ public class Trie2 {
                         return true;
                     }
                 } else { // si no estoy al final de la clave, avanzo
-                    actual = actual.hijos.get((int) listaClave[indice]);
+                    if (actual == null){
+                        return false; // no puedo llegar al nodo que representa la clave
+                    } else {
+                        actual = actual.hijos.get((int) listaClave[indice]);
+                    }
                 }
             }
-            
             
             /*for (int i = 0; i < listaClave.length; i++){
                 if (i == listaClave.lenght - 1){
@@ -65,9 +71,9 @@ public class Trie2 {
                 } else if (actual.hijos.get((int) c).esFinalDePalabra) { 
                     return true;                    
                 }*/
-        }        
+        }    
     }
-    
+
     public T obtener(String clave){
         Nodo actual = raiz;
         char[] listaClave = clave.toCharArray();
