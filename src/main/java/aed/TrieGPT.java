@@ -1,8 +1,10 @@
+package aed;
+
 // con arraylist
 import java.util.ArrayList;
 import java.util.List;
 
-public class Trie<T> {
+public class TrieGPT<T> {
 
     private class Nodo {
         boolean esFinalDePalabra;
@@ -45,7 +47,7 @@ public class Trie<T> {
     private Nodo root;
     private int size;
 
-    public Trie() {
+    public TrieGPT() {
         root = new Nodo();
         size = 0;
     }
@@ -152,12 +154,12 @@ public class Trie<T> {
 /////////
 ///////
 
-
-public class Trie<T> {
+/*
+public class TrieGPT<T> {
     private Nodo root;  // Nodo raíz del trie
     private int size;  // Número de elementos en el trie
 
-    public Trie() {
+    public TrieGPT() {
         root = new Nodo();  // Inicializa la raíz del trie
         size = 0;  // Inicializa el tamaño del trie a 0
     }
@@ -388,3 +390,5 @@ class Trie {
     }
 }
 
+
+*/
