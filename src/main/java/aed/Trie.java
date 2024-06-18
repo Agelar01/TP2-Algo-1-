@@ -8,6 +8,7 @@ public class Trie<T> {
     private int tamaño;
 
     private class Nodo {
+        Character letra;
         T definicion;
         ArrayList<Nodo> hijos;    
         
@@ -20,6 +21,19 @@ public class Trie<T> {
             }
             this.definicion = null;
         }
+
+        private int tamañoDeHijos(){
+            int contador = 0;
+            int ind = 0;
+            while (ind < 256){
+                if(hijos.get(ind) != null){
+                    contador++;
+                }
+                ind++;
+            }
+            return contador;
+        }
+
     }
     
     public Trie() {
@@ -36,9 +50,6 @@ public class Trie<T> {
         //int indice = 0;
         char[] listaClave = clave.toCharArray();
         
-        if (raiz == null) {
-            return false;
-        }
 
         if (listaClave.length == 0){ // si clave == "" digo false, excede los 256 caracteres de ascii me parece
             return false; // no me fijé en la especificación, quizás esto está de más
@@ -97,6 +108,7 @@ public class Trie<T> {
         for (int indice = 0; indice < listaClave.length; indice++){ // Hago un for recorriendo el string "clave"
             if (actual.hijos.get((int) listaClave[indice]) == null){ //  Avanzo creando un nodo si no había palabra con este char
                 Nodo nuevo = new Nodo();
+                nuevo.letra = listaClave[indice];
                 actual.hijos.set((int) listaClave[indice], nuevo); // Si era null, le añado un nodo en esa posición
                 if (indice == listaClave.length - 1){ // Si es el final de la clave, le añado el valor
                     nuevo.definicion = valor;
@@ -113,20 +125,26 @@ public class Trie<T> {
         tamaño++;
     } 
 
-    public void eliminar(String clave){ // NO anda
+    public void eliminar(String clave){ // ANDA, faltaría testearla más
         Nodo actual = raiz;
         char[] listaClave = clave.toCharArray(); // Vale usar toCharArray?
-        Nodo ultimoNodo = raiz; // último nodo que NO hay que borrar
+        Nodo ultimoNodo = raiz; // Último nodo que NO hay que borrar
         int ultimoIndice = 0;
         for (int indice = 0; indice < listaClave.length; indice++){
-            if (indice == listaClave.length - 1){ // si estoy al final de la clave
+            if (indice == listaClave.length - 1){ // Si estoy al final de la clave
+                if(actual.hijos.get((int) listaClave[indice]).tamañoDeHijos() == 0){ // Si no hay claves con este mismo prefijo...
                 actual = ultimoNodo;
-                actual.hijos.set((int) listaClave[ultimoIndice], null); // o ultimoIndice, sin el +1. No estoy seguro.
+                actual.hijos.set((int) listaClave[ultimoIndice], null); // Le borro el hijo correspondiente al último que no hay que borrar
+                }
+                else {
+                    actual.hijos.get((int) listaClave[indice]).definicion = null; // Si si hay otra clave con este prefijo, solo le borro el significado
+                } 
                 tamaño--;
             }
-            if (actual.hijos.size() >= 2 || (indice != listaClave.length -1 && actual.definicion != null)){
+            if (actual.tamañoDeHijos() >= 2 || (indice != listaClave.length -1 && actual.definicion != null)){ // Actualizo el último a no borrar: Si el nodo es el final de una clave, o si tiene dos hijos (Solo quiero borrarle uno).
                 ultimoNodo = actual;
                 ultimoIndice = indice;
+                actual = actual.hijos.get((int) listaClave[indice]);
             }
             else { // si no estoy al final de la clave, avanzo
                     actual = actual.hijos.get((int) listaClave[indice]);

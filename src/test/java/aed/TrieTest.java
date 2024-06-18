@@ -15,15 +15,17 @@ public class TrieTest<T> {
         dicc.definir("bocanada", "asd33");
         dicc.definir("boc", "asd4");
         dicc.definir("meji", "asd5");
+        dicc.definir("bocanadas", "asd6");
+        dicc.eliminar("bocanada");
         assertEquals("asd", dicc.obtener("boca"));
-        //dicc.eliminar("bocanada");
         assertEquals("asd22", dicc.obtener("bocas"));
-        assertEquals("asd33", dicc.obtener("bocanada"));
+        //assertEquals("asd33", dicc.obtener("bocanada"));
         assertEquals("asd4", dicc.obtener("boc"));
         assertEquals("asd5", dicc.obtener("meji"));
         assertEquals(dicc.tamaño(), 5);
-        assertEquals(dicc.esta("bocanada"), true);
-        assertEquals(dicc.esta("boquita"), false);
+        assertEquals(false, dicc.esta("bocanada"));
+        assertEquals(true, dicc.esta("bocanadas"));
+        assertEquals(false, dicc.esta("boquita"));
     }
 
 
