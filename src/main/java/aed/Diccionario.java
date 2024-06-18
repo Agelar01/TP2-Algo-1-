@@ -7,7 +7,7 @@ public interface Diccionario<T> {
 
     public T obtener(T clave);
 
-    public void borrar(T clave);
+    public void eliminar(T clave);
 
     public int tamaño();
 
