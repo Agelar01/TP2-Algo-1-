@@ -1,13 +1,14 @@
 package aed;
+
 public interface Diccionario<T> {
     
-    public boolean está(T clave);
+    public boolean esta(String clave);
 
-    public void definir(T clave, T valor);
+    public void definir(String clave, T valor);
 
-    public T obtener(T clave);
+    public T obtener(String clave);
 
-    public void eliminar(T clave);
+    public void eliminar(String clave);
 
     public int tamaño();
 

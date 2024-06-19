@@ -2,12 +2,13 @@ package aed;
 
 import java.util.ArrayList;
 
-public class Trie<T> {
+public class Trie<T> implements Diccionario<T> {
 
     private Nodo raiz;
     private int tamaño;
 
     private class Nodo {
+
         Character letra;
         T definicion;
         ArrayList<Nodo> hijos;    
@@ -59,13 +60,16 @@ public class Trie<T> {
                 if (indice == listaClave.length - 1){ // si estoy al final de la clave y:
                     if (actual.hijos.get((int) listaClave[indice]).definicion == null){ // no hay definición, digo false
                         return false;
-                    } else if (actual.hijos.get((int) listaClave[indice]).definicion != null){ // hay definición, digo true
+                    } 
+                    if (actual.hijos.get((int) listaClave[indice]).definicion != null){ // hay definición, digo true
                         return true;
                     }
-                } else { // si no estoy al final de la clave, avanzo
+                } 
+                else { // si no estoy al final de la clave, avanzo
                     if (actual == null){
                         return false; // no puedo llegar al nodo que representa la clave
-                    } else {
+                    } 
+                    else{
                         actual = actual.hijos.get((int) listaClave[indice]);
                     }
                 }
