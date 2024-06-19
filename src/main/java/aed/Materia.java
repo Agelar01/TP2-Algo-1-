@@ -3,6 +3,7 @@ package aed;
 import java.util.ArrayList;
 
 public class Materia {
+    private String nombre;
     private int profesores;
     private int jtps;
     private int ayudantes1;
@@ -11,7 +12,8 @@ public class Materia {
     // padres?? no sé cómo representarlos
     //private Nodo[] padres;
 
-    public Materia(){
+    public Materia(String nombre){
+        this.nombre = nombre;
         profesores = 0;
         jtps = 0;
         ayudantes1 = 0;

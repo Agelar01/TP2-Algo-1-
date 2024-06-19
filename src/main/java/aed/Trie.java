@@ -2,7 +2,7 @@ package aed;
 
 import java.util.ArrayList;
 
-public class Trie<T> implements Diccionario<T> {
+public class Trie<String, T /*, T  */> implements Diccionario<String, T> {
 
     private Nodo raiz;
     private int tamaño;
@@ -49,7 +49,8 @@ public class Trie<T> implements Diccionario<T> {
     public boolean esta(String clave) { //Santi: No lo revisé faltaría chequear y pasar en limpio.
         Nodo actual = raiz;
         //int indice = 0;
-        char[] listaClave = clave.toCharArray();
+        char[] listaClave = clave.toString().toCharArray(); 
+        // si hago clave.toCharArray() me tira el error The method toCharArray() is undefined for the type String
         
 
         if (listaClave.length == 0){ // si clave == "" digo false, excede los 256 caracteres de ascii me parece
@@ -94,7 +95,7 @@ public class Trie<T> implements Diccionario<T> {
 
     public T obtener(String clave){
         Nodo actual = raiz;
-        char[] listaClave = clave.toCharArray();
+        char[] listaClave = clave.toString().toCharArray();
         for (int indice = 0; indice < listaClave.length + 1; indice++){ // Más uno pq el primer indice es para la raíz
             if (indice == listaClave.length){ // Si estoy al final de la clave, devuelvo el valor
                 return actual.definicion;
@@ -108,7 +109,7 @@ public class Trie<T> implements Diccionario<T> {
 
     public void definir(String clave, T valor){
         Nodo actual = raiz;
-        char[] listaClave = clave.toCharArray();
+        char[] listaClave = clave.toString().toCharArray();
         for (int indice = 0; indice < listaClave.length; indice++){ // Hago un for recorriendo el string "clave"
             if (actual.hijos.get((int) listaClave[indice]) == null){ //  Avanzo creando un nodo si no había palabra con este char
                 Nodo nuevo = new Nodo();
@@ -131,7 +132,7 @@ public class Trie<T> implements Diccionario<T> {
 
     public void eliminar(String clave){ // ANDA, faltaría testearla más
         Nodo actual = raiz;
-        char[] listaClave = clave.toCharArray(); // Vale usar toCharArray?
+        char[] listaClave = clave.toString().toCharArray(); // Vale usar toCharArray?
         Nodo ultimoNodo = raiz; // Último nodo que NO hay que borrar
         int ultimoIndice = 0;
         for (int indice = 0; indice < listaClave.length; indice++){

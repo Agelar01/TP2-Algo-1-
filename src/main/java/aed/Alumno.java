@@ -1,9 +1,12 @@
 package aed;
 
-public class Alumno<T extends Trie<T>>/* ????? */ {
-    private int cantMaterias;
+// quizás es al pedo toda esta clase
+public class Alumno/*<T extends Trie<T>>*//* ????? */ {
+    private String libreta;
+    private Integer cantMaterias;
 
     public Alumno(String libreta/*??????????? Alumno() o Alumno(libreta) ?????????*/) {
+        this.libreta = libreta;
         cantMaterias=0; //??????????
     }
 
