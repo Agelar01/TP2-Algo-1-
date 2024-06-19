@@ -16,7 +16,7 @@ public class Materia {
         jtps = 0;
         ayudantes1 = 0;
         ayudantes2 = 0;
-        alumnosInscriptos = new ArrayList<String>(); // creeeeo que esto hace que alumnosInscriptos = []
+        alumnosInscriptos = new ArrayList<String>();
         // padres = [] ni idea
     }
 
