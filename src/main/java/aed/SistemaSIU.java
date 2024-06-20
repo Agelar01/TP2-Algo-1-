@@ -20,13 +20,14 @@ public class SistemaSIU {
     
     //LUCAS
     //¿¿¿hago una clase Carrera que tenga un atributo Materias que sea un Trie<Materia>???
-    private Trie<String, String> facultad;
-    private Trie<String, Integer> alumnos;
+    //private Trie<String, String> facultad;
+    //private Trie<String, Integer> alumnos;
     // OBS si pongo private Trie<String>, no me deja que en el método definir le pase un valor(definición) de tipo que no sea String.
 
-    // me gustaría ponerlo como acá abajo pero java se queja
-    //private Trie<String,Carrera> facultad; // el que tiene las carreras. OBS a java no le gusta esto, pero me parece que sería la posta
-    //private Trie<String,Alumno> alumnos; // trie con las libretas de todos los alumnos de la facultad. cada una apunta a la cantidad de materias en las que está inscripto. 
+    // me gustaría ponerlo como acá abajo pero java se queja:
+
+    private Trie<String,Trie<String, Carrera>> facultad; // el que tiene las carreras. OBS a java no le gusta esto, pero me parece que sería la posta
+    private Trie<String,Trie<String, Alumno>> alumnos; // trie con las libretas de todos los alumnos de la facultad. cada una apunta a la cantidad de materias en las que está inscripto. 
     
 
     /////////////////////
@@ -78,15 +79,31 @@ public class SistemaSIU {
     }
 
     public void inscribir(String estudiante, String carrera, String materia){
-        throw new UnsupportedOperationException("Método no implementado aún");
+        facultad.obtener(carrera).obtener(materia).inscribirAlumno(estudiante); 
+        // para todos los métodos que siguen, creo que esto es lo que queremos que funcione
+        // por eso quiero poner private Trie<String,  Materia> facultad 
     }
 
     public void agregarDocente(CargoDocente cargo, String carrera, String materia){
-        throw new UnsupportedOperationException("Método no implementado aún");	    
+        if (cargo == PROF) { // ni idea cómo usar CargoDocente
+            facultad.obtener(carrera).obtener(materia).agregarPROF();
+        }
+        
+        if (cargo == JTP) { 
+            facultad.obtener(carrera).obtener(materia).agregarJTP();
+        }
+
+        if (cargo == AY1) { 
+            facultad.obtener(carrera).obtener(materia).agregarAY1();
+        }
+
+        if (cargo == AY2) { 
+            facultad.obtener(carrera).obtener(materia).agregarAY2();
+        }
     }
 
     public int[] plantelDocente(String materia, String carrera){
-        throw new UnsupportedOperationException("Método no implementado aún");	    
+        return facultad.obtener(carrera).obtener(materia).plantelDocente();	    
     }
 
     public void cerrarMateria(String materia, String carrera){
@@ -94,11 +111,11 @@ public class SistemaSIU {
     }
 
     public int inscriptos(String materia, String carrera){
-        throw new UnsupportedOperationException("Método no implementado aún");	    
+        return facultad.obtener(carrera).obtener(materia).alumnosInscriptos.length;	    
     }
 
     public boolean excedeCupo(String materia, String carrera){
-        throw new UnsupportedOperationException("Método no implementado aún");	    
+        return facultad.obtener(carrera).obtener(materia).alumnosInscriptos.length > facultad.obtener(carrera).obtener(materia).cupo();	    
     }
 
     public String[] carreras(){
@@ -110,6 +127,6 @@ public class SistemaSIU {
     }
 
     public int materiasInscriptas(String estudiante){
-        throw new UnsupportedOperationException("Método no implementado aún");	    
+        return alumnos.obtener(estudiante);	    
     }
 }

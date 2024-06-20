@@ -35,6 +35,14 @@ public class Materia {
         return 250*this.profesores + 100*this.jtps + 20*this.ayudantes1 + 30*this.ayudantes2;
     }
 
+    public int[] plantelDocente() {
+        int[] plantel = new int[4];
+        plantel[0] = this.profesores;
+        plantel[1] = this.jtps;
+        plantel[2] = this.ayudantes1;
+        plantel[3] = this.ayudantes2;
+        return plantel;
+    }
     public void sacarPROF() {
         if (this.profesores > 0) {
             this.profesores--;
