@@ -9,5 +9,7 @@ public class Carrera {
         materias = new Trie<String, Materia>();
     }
 
-    
+    public Materia datosMateria(String nombreMat) {
+        return this.materias.obtener(nombreMat);
+    }
 }
