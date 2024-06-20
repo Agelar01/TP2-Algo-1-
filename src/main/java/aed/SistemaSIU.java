@@ -27,6 +27,7 @@ public class SistemaSIU {
     // me gustaría ponerlo como acá abajo pero java se queja
     //private Trie<String,Carrera> facultad; // el que tiene las carreras. OBS a java no le gusta esto, pero me parece que sería la posta
     //private Trie<String,Alumno> alumnos; // trie con las libretas de todos los alumnos de la facultad. cada una apunta a la cantidad de materias en las que está inscripto. 
+    
 
     /////////////////////
 
@@ -58,7 +59,7 @@ public class SistemaSIU {
         }*/
 
         // *****
-        //OBSERVACIÓN: Santi, no hace falta el if porque no importa si el string del nombre de la carrera ya está en el trie de carreras. a esa carrera le vamos a asignar otra materia (¿otra definición?) 
+        //OBSERVACIÓN: no hace falta el if porque no importa si el string del nombre de la carrera ya está en el trie de carreras. a esa carrera le vamos a asignar otra materia (¿otra definición?) 
         
 
         // lo volví a escribir para entenderlo, lo de santi creo que está bien salvo por el if

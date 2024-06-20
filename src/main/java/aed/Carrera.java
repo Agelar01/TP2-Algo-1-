@@ -1,5 +1,6 @@
 package aed;
 
+// trie con materias de cada carrera.
 public class Carrera {
     
     private Trie<String, Materia> materias;
@@ -8,4 +9,5 @@ public class Carrera {
         materias = new Trie<String, Materia>();
     }
 
+    
 }

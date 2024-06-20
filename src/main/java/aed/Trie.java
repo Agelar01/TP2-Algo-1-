@@ -2,14 +2,15 @@ package aed;
 
 import java.util.ArrayList;
 
-public class Trie<String, T /*, T  */> implements Diccionario<String, T> {
+public class Trie<String, T> implements Diccionario<String, T> {
 
     private Nodo raiz;
     private int tamaño;
 
     private class Nodo {
-
-        Character letra;
+        
+        //Character letra;
+        char letra;
         T definicion;
         ArrayList<Nodo> hijos;    
         

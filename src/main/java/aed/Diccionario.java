@@ -1,6 +1,6 @@
 package aed;
 
-public interface Diccionario<String, T> {
+public interface Diccionario<String , T> {
     
     public boolean esta(String clave);
 
