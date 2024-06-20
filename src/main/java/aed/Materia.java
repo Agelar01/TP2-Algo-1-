@@ -35,6 +35,10 @@ public class Materia {
         return 250*this.profesores + 100*this.jtps + 20*this.ayudantes1 + 30*this.ayudantes2;
     }
 
+    public ArrayList<String> alumnosInscriptos() {
+        return this.alumnosInscriptos;
+    }
+
     public int[] plantelDocente() {
         int[] plantel = new int[4];
         plantel[0] = this.profesores;

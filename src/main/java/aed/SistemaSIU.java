@@ -20,14 +20,18 @@ public class SistemaSIU {
     
     //LUCAS
     //¿¿¿hago una clase Carrera que tenga un atributo Materias que sea un Trie<Materia>???
+    
+
+    
     //private Trie<String, String> facultad;
     //private Trie<String, Integer> alumnos;
+    
     // OBS si pongo private Trie<String>, no me deja que en el método definir le pase un valor(definición) de tipo que no sea String.
 
     // me gustaría ponerlo como acá abajo pero java se queja:
 
-    private Trie<String,Trie<String, Carrera>> facultad; // el que tiene las carreras. OBS a java no le gusta esto, pero me parece que sería la posta
-    private Trie<String,Trie<String, Alumno>> alumnos; // trie con las libretas de todos los alumnos de la facultad. cada una apunta a la cantidad de materias en las que está inscripto. 
+    private Trie<String,Trie<String, Materia>> facultad; // el que tiene las carreras. OBS a java no le gusta esto, pero me parece que sería la posta
+    private Trie<String, Alumno> alumnos; // trie con las libretas de todos los alumnos de la facultad. cada una apunta a la cantidad de materias en las que está inscripto. 
     
 
     /////////////////////
@@ -111,11 +115,11 @@ public class SistemaSIU {
     }
 
     public int inscriptos(String materia, String carrera){
-        return facultad.obtener(carrera).obtener(materia).alumnosInscriptos.length;	    
+        return facultad.obtener(carrera).obtener(materia).alumnosInscriptos().size();	    
     }
 
     public boolean excedeCupo(String materia, String carrera){
-        return facultad.obtener(carrera).obtener(materia).alumnosInscriptos.length > facultad.obtener(carrera).obtener(materia).cupo();	    
+        return facultad.obtener(carrera).obtener(materia).alumnosInscriptos().size() > facultad.obtener(carrera).obtener(materia).cupo();	    
     }
 
     public String[] carreras(){
