@@ -2,7 +2,7 @@ package aed;
 
 import java.util.ArrayList;
 
-public class Trie<String, T> implements Diccionario<String, T> {
+public class Trie</*String,*/ T> implements Diccionario<String, T> {
 
     private Nodo raiz;
     private int tamaño;

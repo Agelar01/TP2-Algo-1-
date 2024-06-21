@@ -10,7 +10,7 @@ public class TrieTest<T> {
 
    @Test
    public void test() {
-      Trie<String> dicc = new Trie<String>();
+      Trie</*String,*/ String> dicc = new Trie</*String,*/ String>();
       dicc.definir("boca", "asd");
       dicc.definir("bocas", "asd22");
       dicc.definir("bocanada", "asd33");

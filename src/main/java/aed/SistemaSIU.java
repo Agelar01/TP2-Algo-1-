@@ -30,8 +30,8 @@ public class SistemaSIU {
 
     // me gustaría ponerlo como acá abajo pero java se queja:
 
-    private Trie<String,Trie<String, Materia>> facultad; // el que tiene las carreras. OBS a java no le gusta esto, pero me parece que sería la posta
-    private Trie<String, Alumno> alumnos; // trie con las libretas de todos los alumnos de la facultad. cada una apunta a la cantidad de materias en las que está inscripto. 
+    private Trie</*String,*/Trie</*String,*/ Materia>> facultad; // el que tiene las carreras. OBS a java no le gusta esto, pero me parece que sería la posta
+    private Trie</*String,*/ Alumno> alumnos; // trie con las libretas de todos los alumnos de la facultad. cada una apunta a la cantidad de materias en las que está inscripto. 
     
 
     /////////////////////
