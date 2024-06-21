@@ -3,7 +3,8 @@ package aed;
 // quizás es al pedo toda esta clase
 public class Alumno/*<T extends Trie<T>>*//* ????? */ {
     private String libreta;
-    private Integer cantMaterias;
+    //private Integer cantMaterias;
+    private int cantMaterias;
 
     public Alumno(String libreta/*??????????? Alumno() o Alumno(libreta) ?????????*/) {
         this.libreta = libreta;

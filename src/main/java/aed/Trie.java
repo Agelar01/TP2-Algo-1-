@@ -17,7 +17,7 @@ public class Trie</*String,*/ T> implements Diccionario<String, T> {
         Nodo() {
             this.hijos = new ArrayList<>();
             int i = 0;
-            while (i < 256){ // Si quiero hacer esto, para qué uso un ArrayList y no un array normal?
+            while (i < 256){ // Si quiero hacer esto, para qué uso un ArrayList y no un array normal? //porque lo dice el pdf de la clase jeje 
                 this.hijos.add(null);
                 i++;
             }
@@ -157,8 +157,4 @@ public class Trie</*String,*/ T> implements Diccionario<String, T> {
             }
         }
     }
-
-
-
-
 }

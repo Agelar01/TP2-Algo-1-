@@ -89,19 +89,19 @@ public class SistemaSIU {
     }
 
     public void agregarDocente(CargoDocente cargo, String carrera, String materia){
-        if (cargo == PROF) { // ni idea cómo usar CargoDocente
+        if (cargo == CargoDocente.PROF) { // ni idea cómo usar CargoDocente
             facultad.obtener(carrera).obtener(materia).agregarPROF();
         }
         
-        if (cargo == JTP) { 
+        if (cargo == CargoDocente.JTP) { 
             facultad.obtener(carrera).obtener(materia).agregarJTP();
         }
 
-        if (cargo == AY1) { 
+        if (cargo == CargoDocente.AY1) { 
             facultad.obtener(carrera).obtener(materia).agregarAY1();
         }
 
-        if (cargo == AY2) { 
+        if (cargo == CargoDocente.AY2) { 
             facultad.obtener(carrera).obtener(materia).agregarAY2();
         }
     }
