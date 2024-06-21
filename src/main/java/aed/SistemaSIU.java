@@ -69,26 +69,59 @@ public class SistemaSIU {
         //OBSERVACIÓN: no hace falta el if porque no importa si el string del nombre de la carrera ya está en el trie de carreras. a esa carrera le vamos a asignar otra materia (¿otra definición?) 
         
 
-        // lo volví a escribir para entenderlo, lo de santi creo que está bien salvo por el if
+        // lo volví a escribir para entenderlo, lo de santi creo que está bien salvo por el if y que falta el trie de los alumnos
 
-        // esta parte no está en lo que escribió santi
         //este for agrega las libretas de todos los alumnos al Trie alumnos, y no asigna ninguna inscripción a materias
         for(int i=0; i < libretasUniversitarias.length; i++) {
             Alumno alumno = new Alumno(libretasUniversitarias[i]);
             alumnos.definir(libretasUniversitarias[i], alumno); 
         }
-        //este for agrega las carreras al SistemaSIU y las materias a cada carrera
+        
+
+        //este for agrega las carreras a la lista de carreras.
         for (int i=0; i < infoMaterias.length; i++) { // OBS infoMaterias.length me dice cuántas materias distintas hay (o sea sin contar las repetidas)
-            Materia materia = new Materia(infoMaterias[i]); // creo las materias que se dictan en la facu. después voy a poder cerrarlas, pero no agregar materias nuevas
+                        
             for (int j=0; j < infoMaterias[i].getParesCarreraMateria().length; j++){ // OBS infoMaterias[i].getParesuCarreraMateria().length me dice en cuántas carreras está la materia (o cuántos nombres tiene la materia)
+            
                 if (!carreras.contains(infoMaterias[i].getParesCarreraMateria()[j].getCarrera())) { // si la carrera que dice ahí no está en mi lista de carreras, la agrego.
                     carreras.add(infoMaterias[i].getParesCarreraMateria()[j].getCarrera());
                 }
-                facultad.definir(infoMaterias[i].getParesCarreraMateria()[j].getCarrera(), infoMaterias[i].getParesCarreraMateria()[j].nombreMateria);
             }
         }
 
 
+        //este for define como valor de la clave "nombreDeCarrera" (carreras.get[i]) a un nuevo Trie<Materia>
+        for (int i = 0; i < carreras.size(); i++) {
+            if (facultad.obtener(carreras.get(i)) == null){
+                Trie<Materia> carrera = new Trie<Materia>();
+                facultad.definir(carreras.get(i), carrera);
+            }
+        }
+
+        //hasta ahora tenemos la raíz del SistemaSIU apuntando a un Trie<Alumnos> (cuyas claves son libretas y sus valores ints) y a un Trie<Materia> (cuyas claves son los nombres de las materias y sus valores, por ahora vacíos, son de la clase Materia).
+        //ahora falta asignarle las definiciones (materias) a cada carrera
+        for (int i = 0; i < infoMaterias.length; i++) { // OBS infoMaterias.length me dice cuántas materias distintas hay (o sea sin contar las repetidas)
+            
+            Materia materia = new Materia(infoMaterias[i]); // creo las materias que se dictan en la facu. después voy a poder cerrarlas, pero no agregar materias nuevas
+            
+            for (int j = 0; j < infoMaterias[i].getParesCarreraMateria().length; j++) { // OBS infoMaterias[i].getParesuCarreraMateria().length me dice en cuántas carreras está la materia (o cuántos nombres tiene la materia)
+                facultad.obtener(infoMaterias[i].getParesCarreraMateria()[j].getCarrera()).definir(infoMaterias[i].getParesCarreraMateria()[j].getNombreMateria(), materia);
+            }
+        }
+
+        /*for (int i = 0; i < infoMaterias.length; i++) { // OBS infoMaterias.length me dice cuántas materias distintas hay (o sea sin contar las repetidas)
+            
+            Materia materia = new Materia(infoMaterias[i]); // creo las materias que se dictan en la facu. después voy a poder cerrarlas, pero no agregar materias nuevas
+                  
+                // este for crea los Tries de cada carrera
+                for (int j=0; j < infoMaterias[i].getParesCarreraMateria().length; j++){
+                    if (facultad.obtener(infoMaterias[i].getParesCarreraMateria()[j].getCarrera() == null)) {
+                        Trie<Materia> carrera = new Trie<Materia>();
+                        facultad.definir(infoMaterias[i].getParesCarreraMateria()[j].getCarrera(), carrera);
+                    }
+                }
+            }
+        }*/
     }
 
     public void inscribir(String estudiante, String carrera, String materia){
