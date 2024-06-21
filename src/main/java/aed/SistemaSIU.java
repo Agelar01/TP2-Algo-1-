@@ -48,29 +48,6 @@ public class SistemaSIU {
     }
 
     public SistemaSIU(InfoMateria[] infoMaterias, String[] libretasUniversitarias){
-        /*Trie<String> carreras = new Trie<String>();
-        int i = 0;
-        while (i < infoMaterias.length){
-            InfoMateria infoMateriaActual = infoMaterias[i];
-            ParCarreraMateria[] listaParesCarreraMateria = infoMateriaActual.getParesCarreraMateria();
-            int j = 0;
-            while (j < listaParesCarreraMateria.length) {
-                ParCarreraMateria parActual = listaParesCarreraMateria[j];
-                String carrera = parActual.getCarrera();
-                if (!carreras.esta(carrera)){ // Chequear si estaba, me afecta a la complejidad? // *****
-                    carreras.definir(carrera, valor); // Falta ver que valor le quiero meter. Debería ser un trie con las materias de esa carrera.
-                }
-                j++;
-            }
-            i++;
-        }*/
-
-        // *****
-        //OBSERVACIÓN: no hace falta el if porque no importa si el string del nombre de la carrera ya está en el trie de carreras. a esa carrera le vamos a asignar otra materia (¿otra definición?) 
-        
-
-        // lo volví a escribir para entenderlo, lo de santi creo que está bien salvo por el if y que falta el trie de los alumnos
-
         //este for agrega las libretas de todos los alumnos al Trie alumnos, y no asigna ninguna inscripción a materias
         for(int i=0; i < libretasUniversitarias.length; i++) {
             Alumno alumno = new Alumno(libretasUniversitarias[i]);
@@ -83,8 +60,8 @@ public class SistemaSIU {
                         
             for (int j=0; j < infoMaterias[i].getParesCarreraMateria().length; j++){ // OBS infoMaterias[i].getParesuCarreraMateria().length me dice en cuántas carreras está la materia (o cuántos nombres tiene la materia)
             
-                if (!carreras.contains(infoMaterias[i].getParesCarreraMateria()[j].getCarrera())) { // si la carrera que dice ahí no está en mi lista de carreras, la agrego.
-                    carreras.add(infoMaterias[i].getParesCarreraMateria()[j].getCarrera());
+                if (!this.carreras.contains(infoMaterias[i].getParesCarreraMateria()[j].getCarrera())) { // si la carrera que dice ahí no está en mi lista de carreras, la agrego.
+                    this.carreras.add(infoMaterias[i].getParesCarreraMateria()[j].getCarrera());
                 }
             }
         }
@@ -122,6 +99,27 @@ public class SistemaSIU {
                 }
             }
         }*/
+
+
+            /*Trie<String> carreras = new Trie<String>();
+        int i = 0;
+        while (i < infoMaterias.length){
+            InfoMateria infoMateriaActual = infoMaterias[i];
+            ParCarreraMateria[] listaParesCarreraMateria = infoMateriaActual.getParesCarreraMateria();
+            int j = 0;
+            while (j < listaParesCarreraMateria.length) {
+                ParCarreraMateria parActual = listaParesCarreraMateria[j];
+                String carrera = parActual.getCarrera();
+                if (!carreras.esta(carrera)){ // Chequear si estaba, me afecta a la complejidad? // *****
+                    carreras.definir(carrera, valor); // Falta ver que valor le quiero meter. Debería ser un trie con las materias de esa carrera.
+                }
+                j++;
+            }
+            i++;
+        }*/
+
+        // *****
+        //OBSERVACIÓN: creo que no hace falta el if porque no importa si el string del nombre de la carrera ya está en el trie de carreras. a esa carrera le vamos a asignar otra materia (¿otra definición?) 
     }
 
     public void inscribir(String estudiante, String carrera, String materia){
@@ -165,8 +163,9 @@ public class SistemaSIU {
     }
 
     public String[] carreras(){ 
-        String[] listaCarreras = new String[carreras.size()];
-        //ArrayList<String> carrerasOredenadas = carreras.sort(int); // habría que hacer una función que ordene el array carreras o aprender a usar el método sort()
+        String[] listaCarreras = new String[this.carreras.size()];
+        //ArrayList<String> carrerasOredenadas = this.carreras.sort(); // habría que hacer una función que ordene el array carreras o aprender a usar el método sort()
+        
         for (int i = 0; i< carreras.size(); i++) {
             listaCarreras[i] = carreras.get(i);
         }
@@ -176,6 +175,8 @@ public class SistemaSIU {
     public String[] materias(String carrera){
         throw new UnsupportedOperationException("Método no implementado aún");	    
     }
+
+    //private String[] ordenarLexicograficamente(String[] lista) {}
 
     public int materiasInscriptas(String estudiante){
         return alumnos.obtener(estudiante).cantMaterias();	    

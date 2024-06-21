@@ -125,7 +125,7 @@ public class Trie<T> implements Diccionario<String, T> {
 
     public void eliminar(String clave){ // ANDA, faltaría testearla más
         Nodo actual = raiz;
-        char[] listaClave = clave.toCharArray(); // Vale usar toCharArray?
+        char[] listaClave = clave.toCharArray();
         Nodo ultimoNodo = raiz; // Último nodo que NO hay que borrar
         int ultimoIndice = 0;
         for (int indice = 0; indice < listaClave.length; indice++){
