@@ -131,6 +131,6 @@ public class SistemaSIU {
     }
 
     public int materiasInscriptas(String estudiante){
-        return alumnos.obtener(estudiante);	    
+        return alumnos.obtener(estudiante).cantMaterias();	    
     }
 }

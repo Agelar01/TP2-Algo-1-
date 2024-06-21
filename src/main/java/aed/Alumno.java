@@ -20,4 +20,8 @@ public class Alumno/*<T extends Trie<T>>*//* ????? */ {
             this.cantMaterias--;
         }
     }
+
+    public int cantMaterias() {
+        return this.cantMaterias;
+    }
 }
