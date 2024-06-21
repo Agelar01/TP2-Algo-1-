@@ -2,7 +2,7 @@ package aed;
 
 import java.util.ArrayList;
 
-public class Trie</*String,*/ T> implements Diccionario<String, T> {
+public class Trie<T> implements Diccionario<String, T> {
 
     private Nodo raiz;
     private int tamaño;
@@ -10,8 +10,10 @@ public class Trie</*String,*/ T> implements Diccionario<String, T> {
     private class Nodo {
         
         //Character letra;
-        char letra;
-        T definicion;
+        //char letra; 
+            // OBS me parece que esto es al pedo, la letra (o el caracter ascii) está representado por la posición en hijos
+        
+            T definicion;
         ArrayList<Nodo> hijos;    
         
         Nodo() {
@@ -23,6 +25,10 @@ public class Trie</*String,*/ T> implements Diccionario<String, T> {
             }
             this.definicion = null;
         }
+
+        /*public char letra(){
+            return 
+        }*/
 
         private int tamañoDeHijos(){
             int contador = 0;
@@ -50,7 +56,7 @@ public class Trie</*String,*/ T> implements Diccionario<String, T> {
     public boolean esta(String clave) { //Santi: No lo revisé faltaría chequear y pasar en limpio.
         Nodo actual = raiz;
         //int indice = 0;
-        char[] listaClave = clave.toString().toCharArray(); 
+        char[] listaClave = clave.toCharArray(); //clave.toString().toCharArray(); 
         // si hago clave.toCharArray() me tira el error The method toCharArray() is undefined for the type String
         
 
@@ -76,31 +82,17 @@ public class Trie</*String,*/ T> implements Diccionario<String, T> {
                     }
                 }
             }
-            
-            /*for (int i = 0; i < listaClave.length; i++){
-                if (i == listaClave.lenght - 1){
-                    if (actual.hijos.get(i))
-                }
-            }*/
-                /*
-                if (actual.hijos.get((int) c) == null){
-                    return false;
-                } else if ((!actual.hijos.get((int) c).esFinalDePalabra) && actual.hijos.get((int) c).definicion == null){
-                    actual = actual.hijos.get((int) c);
-                } else if (actual.hijos.get((int) c).esFinalDePalabra) { 
-                    return true;                    
-                }*/
         }
         return false;    
     }
 
     public T obtener(String clave){
         Nodo actual = raiz;
-        char[] listaClave = clave.toString().toCharArray();
+        char[] listaClave = clave.toCharArray();
         for (int indice = 0; indice < listaClave.length + 1; indice++){ // Más uno pq el primer indice es para la raíz
             if (indice == listaClave.length){ // Si estoy al final de la clave, devuelvo el valor
                 return actual.definicion;
-            } 
+            }
             else { // Si no estoy al final de la clave, avanzo
                     actual = actual.hijos.get((int) listaClave[indice]);
             }
@@ -110,18 +102,18 @@ public class Trie</*String,*/ T> implements Diccionario<String, T> {
 
     public void definir(String clave, T valor){
         Nodo actual = raiz;
-        char[] listaClave = clave.toString().toCharArray();
-        for (int indice = 0; indice < listaClave.length; indice++){ // Hago un for recorriendo el string "clave"
-            if (actual.hijos.get((int) listaClave[indice]) == null){ //  Avanzo creando un nodo si no había palabra con este char
+        char[] listaClave = clave.toCharArray(); // paso de 'clave' a ['c','l','a','v','e'], se entiende
+        for (int indice = 0; indice < listaClave.length; indice++){ // Hago un for recorriendo ['c','l','a','v','e']
+            if (actual.hijos.get((int) listaClave[indice]) == null) { //  Avanzo creando un nodo si no había palabra con este char
                 Nodo nuevo = new Nodo();
-                nuevo.letra = listaClave[indice];
-                actual.hijos.set((int) listaClave[indice], nuevo); // Si era null, le añado un nodo en esa posición
+                //nuevo.letra = listaClave[indice];
+                actual.hijos.set((int) listaClave[indice], nuevo); // Añado un nodo nuevo en actual.hijos en la posición posición indicada por (int) listaClave[indice] 
                 if (indice == listaClave.length - 1){ // Si es el final de la clave, le añado el valor
                     nuevo.definicion = valor;
                 }
-                actual = nuevo;
+                actual = nuevo; // avanzo al nodo que acabo de crear.
             }
-            else{
+            else { // si en el Trie ya hay una palabra que empieza con el char listaClave[indice], avanzo al nodo que corresponde a ese caracter
                 actual = actual.hijos.get((int) listaClave[indice]); // Avanzo si ya había palabra con ese char 
                 if (indice == listaClave.length - 1){ // Si estoy en el final de mi clave, añado el valor
                     actual.definicion = valor;
@@ -133,7 +125,7 @@ public class Trie</*String,*/ T> implements Diccionario<String, T> {
 
     public void eliminar(String clave){ // ANDA, faltaría testearla más
         Nodo actual = raiz;
-        char[] listaClave = clave.toString().toCharArray(); // Vale usar toCharArray?
+        char[] listaClave = clave.toCharArray(); // Vale usar toCharArray?
         Nodo ultimoNodo = raiz; // Último nodo que NO hay que borrar
         int ultimoIndice = 0;
         for (int indice = 0; indice < listaClave.length; indice++){

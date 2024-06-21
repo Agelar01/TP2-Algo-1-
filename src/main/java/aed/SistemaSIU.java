@@ -1,5 +1,7 @@
 package aed;
 
+import java.util.ArrayList;
+
 public class SistemaSIU {
 
     //////////////////////
@@ -30,9 +32,9 @@ public class SistemaSIU {
 
     // me gustaría ponerlo como acá abajo pero java se queja:
 
-    private Trie</*String,*/Trie</*String,*/ Materia>> facultad; // el que tiene las carreras. OBS a java no le gusta esto, pero me parece que sería la posta
-    private Trie</*String,*/ Alumno> alumnos; // trie con las libretas de todos los alumnos de la facultad. cada una apunta a la cantidad de materias en las que está inscripto. 
-    
+    private Trie<Trie<Materia>> facultad; // el que tiene las carreras. OBS a java no le gusta esto, pero me parece que sería la posta
+    private Trie<Alumno> alumnos; // trie con las libretas de todos los alumnos de la facultad. cada una apunta a la cantidad de materias en las que está inscripto. 
+    private ArrayList<String> carreras; // algo para contar las carreras? 
 
     /////////////////////
 
@@ -68,18 +70,25 @@ public class SistemaSIU {
         
 
         // lo volví a escribir para entenderlo, lo de santi creo que está bien salvo por el if
-        //este for agrega las carreras al SistemaSIU y las materias a cada carrera
-        for (int i=0; i < infoMaterias.length; i++) {
-            for (int j=0; j < infoMaterias[i].getParesCarreraMateria().length; j++){
-                facultad.definir(infoMaterias[i].getParesCarreraMateria()[j].carrera, infoMaterias[i].getParesCarreraMateria()[j].nombreMateria);
-            }
-        }
 
         // esta parte no está en lo que escribió santi
         //este for agrega las libretas de todos los alumnos al Trie alumnos, y no asigna ninguna inscripción a materias
         for(int i=0; i < libretasUniversitarias.length; i++) {
-            alumnos.definir(libretasUniversitarias[i], 0);
+            Alumno alumno = new Alumno(libretasUniversitarias[i]);
+            alumnos.definir(libretasUniversitarias[i], alumno); 
         }
+        //este for agrega las carreras al SistemaSIU y las materias a cada carrera
+        for (int i=0; i < infoMaterias.length; i++) { // OBS infoMaterias.length me dice cuántas materias distintas hay (o sea sin contar las repetidas)
+            Materia materia = new Materia(infoMaterias[i]); // creo las materias que se dictan en la facu. después voy a poder cerrarlas, pero no agregar materias nuevas
+            for (int j=0; j < infoMaterias[i].getParesCarreraMateria().length; j++){ // OBS infoMaterias[i].getParesuCarreraMateria().length me dice en cuántas carreras está la materia (o cuántos nombres tiene la materia)
+                if (!carreras.contains(infoMaterias[i].getParesCarreraMateria()[j].getCarrera())) { // si la carrera que dice ahí no está en mi lista de carreras, la agrego.
+                    carreras.add(infoMaterias[i].getParesCarreraMateria()[j].getCarrera());
+                }
+                facultad.definir(infoMaterias[i].getParesCarreraMateria()[j].getCarrera(), infoMaterias[i].getParesCarreraMateria()[j].nombreMateria);
+            }
+        }
+
+
     }
 
     public void inscribir(String estudiante, String carrera, String materia){
@@ -122,8 +131,13 @@ public class SistemaSIU {
         return facultad.obtener(carrera).obtener(materia).alumnosInscriptos().size() > facultad.obtener(carrera).obtener(materia).cupo();	    
     }
 
-    public String[] carreras(){
-        throw new UnsupportedOperationException("Método no implementado aún");	    
+    public String[] carreras(){ 
+        String[] listaCarreras = new String[carreras.size()];
+        //ArrayList<String> carrerasOredenadas = carreras.sort(int); // habría que hacer una función que ordene el array carreras o aprender a usar el método sort()
+        for (int i = 0; i< carreras.size(); i++) {
+            listaCarreras[i] = carreras.get(i);
+        }
+        return listaCarreras;	    
     }
 
     public String[] materias(String carrera){
