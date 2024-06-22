@@ -16,15 +16,13 @@ public class Materia {
 
 
     //Constructor. inicializa una materia nueva con 0 inscriptos y 0 docentes
-    public Materia(/*String nombre ,*/ InfoMateria paresCarreraMateria){ // no sé si tiene sentido guardar los otros nombres acá 
-        //this.nombre = nombre;
+    public Materia( InfoMateria paresCarreraMateria){ 
         this.paresCarreraMateria = paresCarreraMateria;
         profesores = 0;
         jtps = 0;
         ayudantes1 = 0;
         ayudantes2 = 0;
         alumnosInscriptos = new ArrayList<String>();
-        // padres = [] ni idea
     }
 
     public void agregarPROF() {

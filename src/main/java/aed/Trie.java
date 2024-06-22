@@ -94,14 +94,13 @@ public class Trie<T> implements Diccionario<String, T> {
                 return actual.definicion;
             }
             else { // Si no estoy al final de la clave, avanzo
-                //actual.hijos.get((int) listaClave[indice])    
                 actual = actual.hijos.get((int) listaClave[indice]);
             }
         }
         return actual.definicion; // En el caso de que no entre en el for, es decir sea la clave vacía
     }
 
-    public void definir(String clave, T valor){
+    public void definir(String clave, T valor){ //FUNCIONA
         Nodo actual = raiz;
         char[] listaClave = clave.toCharArray(); // paso de 'clave' a ['c','l','a','v','e'], se entiende
         for (int indice = 0; indice < listaClave.length; indice++){ // Hago un for recorriendo ['c','l','a','v','e']

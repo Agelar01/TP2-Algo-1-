@@ -6,41 +6,9 @@ import javax.crypto.spec.RC2ParameterSpec;
 
 public class SistemaSIU {
 
-    //////////////////////
-    
-    //SANTI
-    // Falta agregar atributos privados, van a ser dos: un Trie(carrera,materiaDeCarrera), donde materia de carrera es otro Trie(materia,datosMateria)
-    // y datosMateria va ser un objeto con los datos de los profesores, datos de los alumnos y algo que nos ayude a borrar materias en O(1)
-    
-    // El otro atributo va a ser otro trie(alumno, cantidadDeMateriasInscripto)
-    
-    /////////////////////
-
-
-    
-    
-    
-    /////////////////////
-    
-    //LUCAS
-    //¿¿¿hago una clase Carrera que tenga un atributo Materias que sea un Trie<Materia>???
-    
-
-    
-    //private Trie<String, String> facultad;
-    //private Trie<String, Integer> alumnos;
-    
-    // OBS si pongo private Trie<String>, no me deja que en el método definir le pase un valor(definición) de tipo que no sea String.
-
-    // me gustaría ponerlo como acá abajo pero java se queja:
-
-    private Trie<Trie<Materia>> facultad; // el que tiene las carreras. OBS a java no le gusta esto, pero me parece que sería la posta
-    private Trie<Alumno> alumnos; // trie con las libretas de todos los alumnos de la facultad. cada una apunta a la cantidad de materias en las que está inscripto. 
+    private Trie<Trie<Materia>> facultad; // Trie cuyas claves son strings con los nombres de las carreras. los valores son Tries cuyas claves son strings con el nombre de las materias y sus valores son de clase Materia.
+    private Trie<Alumno> alumnos; // Trie cuyas claves son strings de las libretas de todos los alumnos de la facultad. sus valores son las cantidades de materias en las que están inscriptos los alumnos. 
     private ArrayList<String> carreras; // algo para contar las carreras? 
-
-    /////////////////////
-
-    // En el constructor debo construir correctamente estos atributos, hay que corregir lo que está hecho actualmente
 
     enum CargoDocente{
         AY2,
@@ -49,24 +17,24 @@ public class SistemaSIU {
         PROF
     }
 
+    //IMPORTANTE debugueando el segundo test ()
     public SistemaSIU(InfoMateria[] infoMaterias, String[] libretasUniversitarias){
         
-        // inicializo los atribuutos privados
+        // inicializo los atributos privados.
         Trie<Alumno> alumnos = new Trie<Alumno>();
         Trie<Trie<Materia>> facultad = new Trie<Trie<Materia>>();
         ArrayList<String> carreras = new ArrayList<String>();
 
         //este for agrega las libretas de todos los alumnos al Trie alumnos, y no asigna ninguna inscripción a materias
-        for(int i=0; i < libretasUniversitarias.length; i++) {
+        for(int i=0; i < libretasUniversitarias.length; i++) {  // ESTO YA LO CHEQUIÉ Y FUNCIONA BIEN
             Alumno alumno = new Alumno(libretasUniversitarias[i]);
             alumnos.definir(libretasUniversitarias[i], alumno); 
         }
         
-
         //este for agrega las carreras a la lista de carreras.
                     // OBS infoMaterias.length me dice cuántas materias distintas hay (o sea sin contar las repetidas)
         for (int i=0; i < infoMaterias.length; i++) { 
-                        
+                // ESTO YA LO CHEQUIÉ Y FUNCIONA BIEN (no hay nada que chequear pero bueno)         
             for (int j = 0; j < infoMaterias[i].getParesCarreraMateria().length; j++){ 
                 
                 if (j == 0 && i == 0){
@@ -82,66 +50,39 @@ public class SistemaSIU {
 
 
         //este for define como valor de la clave "nombreDeCarrera" (carreras.get[i]) a un nuevo Trie<Materia>
+        // ESTO YA LO CHEQUIÉ Y FUNCIONA BIEN
         for (int i = 0; i < carreras.size(); i++) {
                 Trie<Materia> carrera = new Trie<Materia>();
                 facultad.definir(carreras.get(i), carrera);
         }
 
-        //hasta ahora tenemos la raíz del SistemaSIU apuntando a un Trie<Alumnos> (cuyas claves son libretas y sus valores ints) y a un Trie<Materia> (cuyas claves son los nombres de las materias y sus valores, por ahora vacíos, son de la clase Materia).
-        //ahora falta asignarle las definiciones (materias) a cada carrera
+    //hasta ahora tenemos la raíz del SistemaSIU apuntando a un Trie<Alumnos> (cuyas claves son libretas y sus valores ints) 
+    //y a un Trie<Materia> (cuyas claves son los nombres de las materias y sus valores, por ahora vacíos, son de la clase Materia).
+    //ahora falta asignarle las definiciones (materias) a cada carrera
         for (int i = 0; i < infoMaterias.length; i++) { // OBS infoMaterias.length me dice cuántas materias distintas hay (o sea sin contar las repetidas)
             
             Materia materia = new Materia(infoMaterias[i]); // creo las materias que se dictan en la facu. después voy a poder cerrarlas, pero no agregar materias nuevas
             
             for (int j = 0; j < infoMaterias[i].getParesCarreraMateria().length; j++) { // OBS infoMaterias[i].getParesuCarreraMateria().length me dice en cuántas carreras está la materia (o cuántos nombres tiene la materia)
-                facultad.obtener(infoMaterias[i].getParesCarreraMateria()[j].getCarrera()).definir(infoMaterias[i].getParesCarreraMateria()[j].getNombreMateria(), materia);
+                facultad.obtener(infoMaterias[i].getParesCarreraMateria()[j].getCarrera()).definir(infoMaterias[i].getParesCarreraMateria()[j].getNombreMateria(), materia); 
+                 //facultad.obtener(nombre de carrera) es de tipo Trie<Materia>
             }
         }
-
-        /*for (int i = 0; i < infoMaterias.length; i++) { // OBS infoMaterias.length me dice cuántas materias distintas hay (o sea sin contar las repetidas)
-            
-            Materia materia = new Materia(infoMaterias[i]); // creo las materias que se dictan en la facu. después voy a poder cerrarlas, pero no agregar materias nuevas
-                  
-                // este for crea los Tries de cada carrera
-                for (int j=0; j < infoMaterias[i].getParesCarreraMateria().length; j++){
-                    if (facultad.obtener(infoMaterias[i].getParesCarreraMateria()[j].getCarrera() == null)) {
-                        Trie<Materia> carrera = new Trie<Materia>();
-                        facultad.definir(infoMaterias[i].getParesCarreraMateria()[j].getCarrera(), carrera);
-                    }
-                }
-            }
-        }*/
-
-
-            /*Trie<String> carreras = new Trie<String>();
-        int i = 0;
-        while (i < infoMaterias.length){
-            InfoMateria infoMateriaActual = infoMaterias[i];
-            ParCarreraMateria[] listaParesCarreraMateria = infoMateriaActual.getParesCarreraMateria();
-            int j = 0;
-            while (j < listaParesCarreraMateria.length) {
-                ParCarreraMateria parActual = listaParesCarreraMateria[j];
-                String carrera = parActual.getCarrera();
-                if (!carreras.esta(carrera)){ // Chequear si estaba, me afecta a la complejidad? // *****
-                    carreras.definir(carrera, valor); // Falta ver que valor le quiero meter. Debería ser un trie con las materias de esa carrera.
-                }
-                j++;
-            }
-            i++;
-        }*/
-
-        // *****
-        //OBSERVACIÓN: creo que no hace falta el if porque no importa si el string del nombre de la carrera ya está en el trie de carreras. a esa carrera le vamos a asignar otra materia (¿otra definición?) 
+        this.alumnos = alumnos;
+        this.carreras = carreras;
+        this.facultad = facultad;
     }
 
     public void inscribir(String estudiante, String carrera, String materia){
-        facultad.obtener(carrera).obtener(materia).inscribirAlumno(estudiante); 
+        facultad.obtener(carrera).obtener(materia).inscribirAlumno(estudiante);
+        //int cantMat = alumnos.obtener(estudiante).cantMaterias();
+        alumnos.obtener(estudiante).sumarUnaInscripcion();
         // para todos los métodos que siguen, creo que esto es lo que queremos que funcione
         // por eso quiero poner private Trie<String,  Materia> facultad 
     }
 
     public void agregarDocente(CargoDocente cargo, String carrera, String materia){
-        if (cargo == CargoDocente.PROF) { // ni idea cómo usar CargoDocente
+        if (cargo == CargoDocente.PROF) {
             facultad.obtener(carrera).obtener(materia).agregarPROF();
         }
         
