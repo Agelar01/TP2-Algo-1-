@@ -6,7 +6,8 @@ public class SistemaSIU {
 
     private Trie<Trie<Materia>> facultad; // Trie cuyas claves son strings con los nombres de las carreras. los valores son Tries cuyas claves son strings con el nombre de las materias y sus valores son de clase Materia.
     private Trie<Alumno> alumnos; // Trie cuyas claves son strings de las libretas de todos los alumnos de la facultad. sus valores son las cantidades de materias en las que están inscriptos los alumnos. 
-    private ArrayList<String> carreras; // algo para contar las carreras? 
+    private ArrayList<String> carreras; // algo para guardar las carreras. lo podemos reemplazar por el de abajo
+    private InfoMateria[] infoMaterias; // 
 
     enum CargoDocente{
         AY2,
@@ -30,7 +31,6 @@ public class SistemaSIU {
 
 /////////////////////// 
 
-//PROBABLEMENTE AL PEDO
         //este for agrega las carreras a la lista de carreras.
                     // OBS infoMaterias.length me dice cuántas materias distintas hay (o sea sin contar las repetidas)
         for (int i=0; i < infoMaterias.length; i++) {         
@@ -70,6 +70,7 @@ public class SistemaSIU {
         this.alumnos = alumnos;
         this.carreras = carreras;
         this.facultad = facultad;
+        this.infoMaterias = infoMaterias;
     }
 
     public void inscribir(String estudiante, String carrera, String materia){
@@ -130,8 +131,25 @@ public class SistemaSIU {
     }
 
     public String[] materias(String carrera){
-
+        ArrayList<String> lista = new ArrayList<String>(); 
+        for (int i = 0; i < this.infoMaterias.length; i++) {
+            for (int j = 0; j < infoMaterias[i].getParesCarreraMateria().length; j++){
+                if (infoMaterias[i].getParesCarreraMateria()[j].getCarrera() == carrera) {
+                    lista.add(infoMaterias[i].getParesCarreraMateria()[j].getNombreMateria());
+                }
+            }
+        }
         
+        lista.sort(null);
+
+        String[] listaMaterias = new String[lista.size()];
+        
+        for (int i = 0; i < lista.size(); i++) {
+            listaMaterias[i] = lista.get(i);
+        }
+
+        return listaMaterias;
+    
     }
 
     //private String[] ordenarLexicograficamente(String[] lista) {}
