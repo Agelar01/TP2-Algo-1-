@@ -2,6 +2,8 @@ package aed;
 
 import java.util.ArrayList;
 
+import javax.crypto.spec.RC2ParameterSpec;
+
 public class SistemaSIU {
 
     //////////////////////
@@ -49,6 +51,9 @@ public class SistemaSIU {
 
     public SistemaSIU(InfoMateria[] infoMaterias, String[] libretasUniversitarias){
         //este for agrega las libretas de todos los alumnos al Trie alumnos, y no asigna ninguna inscripción a materias
+        Trie<Alumno> alumnos = new Trie<Alumno>();
+        Trie<Trie<Materia>> facultad = new Trie<Trie<Materia>>();
+        ArrayList<String> carreras = new ArrayList<String>();
         for(int i=0; i < libretasUniversitarias.length; i++) {
             Alumno alumno = new Alumno(libretasUniversitarias[i]);
             alumnos.definir(libretasUniversitarias[i], alumno); 
@@ -59,7 +64,10 @@ public class SistemaSIU {
         for (int i=0; i < infoMaterias.length; i++) { // OBS infoMaterias.length me dice cuántas materias distintas hay (o sea sin contar las repetidas)
                         
             for (int j=0; j < infoMaterias[i].getParesCarreraMateria().length; j++){ // OBS infoMaterias[i].getParesuCarreraMateria().length me dice en cuántas carreras está la materia (o cuántos nombres tiene la materia)
-            
+                if (j == 0){
+                    this.carreras.add(infoMaterias[i].getParesCarreraMateria()[j].getCarrera());
+                }
+
                 if (!this.carreras.contains(infoMaterias[i].getParesCarreraMateria()[j].getCarrera())) { // si la carrera que dice ahí no está en mi lista de carreras, la agrego.
                     this.carreras.add(infoMaterias[i].getParesCarreraMateria()[j].getCarrera());
                 }

@@ -8,7 +8,7 @@ public class Alumno/*<T extends Trie<T>>*//* ????? */ {
 
     public Alumno(String libreta) {
         this.libreta = libreta;
-        cantMaterias=0; //??????????
+        cantMaterias=0;
     }
 
     public void sumarUnaInscripcion() {
