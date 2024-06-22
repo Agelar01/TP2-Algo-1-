@@ -10,7 +10,7 @@ public class TrieTest<T> {
 
    @Test
    public void test() {
-      Trie</*String,*/ String> dicc = new Trie</*String,*/ String>();
+      Trie<String> dicc = new Trie<String>();
       dicc.definir("boca", "asd");
       dicc.definir("bocas", "asd22");
       dicc.definir("bocanada", "asd33");
@@ -27,6 +27,28 @@ public class TrieTest<T> {
       assertEquals(true, dicc.esta("bocanadas"));
       assertEquals(false, dicc.esta("boquita"));
    }
-   
 
+   @Test
+   public void test2() {
+      Trie<Materia> carrera = new Trie<Materia>();
+      carrera.definir("Ciencias de la computación", new Materia(new InfoMateria(new ParCarreraMateria[] {new ParCarreraMateria("Ciencias de la Computación", "Intro a la Programación"), new ParCarreraMateria("Ciencias de Datos", "Algoritmos1")})));
+      assertEquals(0, carrera.obtener("Ciencias de la computación").cantidadAlumnosInscriptos());
+      assertEquals(true, carrera.esta("Ciencias de la computación"));
+
+      carrera.eliminar("Ciencias de la computación");
+      assertEquals(false, carrera.esta("Ciencias de la computación"));
+   }
+   
+   /* 
+   @Test
+   public void test3() {
+      Trie<Trie<Materia>> carrera = new Trie<Trie<Materia>>();
+      carrera.definir("compu", new Trie<Materia>()).definir("Ciencias de la computación", new Materia(new InfoMateria(new ParCarreraMateria[] {new ParCarreraMateria("Ciencias de la Computación", "Intro a la Programación"), new ParCarreraMateria("Ciencias de Datos", "Algoritmos1")})));
+      assertEquals(0, carrera.obtener("Ciencias de la computación").cantidadAlumnosInscriptos());
+      assertEquals(true, carrera.esta("Ciencias de la computación"));
+
+      carrera.eliminar("Ciencias de la computación");
+      assertEquals(false, carrera.esta("Ciencias de la computación"));
+   }
+   */
 }

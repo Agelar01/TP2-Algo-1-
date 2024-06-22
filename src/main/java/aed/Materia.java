@@ -39,6 +39,10 @@ public class Materia {
         return this.alumnosInscriptos;
     }
 
+    public int cantidadAlumnosInscriptos() {
+        return this.alumnosInscriptos.size();
+    }
+
     public int[] plantelDocente() {
         int[] plantel = new int[4];
         plantel[0] = this.profesores;

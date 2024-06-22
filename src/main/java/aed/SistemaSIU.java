@@ -64,14 +64,17 @@ public class SistemaSIU {
         
 
         //este for agrega las carreras a la lista de carreras.
-        for (int i=0; i < infoMaterias.length; i++) { // OBS infoMaterias.length me dice cuántas materias distintas hay (o sea sin contar las repetidas)
+                    // OBS infoMaterias.length me dice cuántas materias distintas hay (o sea sin contar las repetidas)
+        for (int i=0; i < infoMaterias.length; i++) { 
                         
-            for (int j=0; j < infoMaterias[i].getParesCarreraMateria().length; j++){ // OBS infoMaterias[i].getParesuCarreraMateria().length me dice en cuántas carreras está la materia (o cuántos nombres tiene la materia)
-                if (j == 0){
+            for (int j = 0; j < infoMaterias[i].getParesCarreraMateria().length; j++){ 
+                
+                if (j == 0 && i == 0){
                     carreras.add(infoMaterias[i].getParesCarreraMateria()[j].getCarrera());
-                }
-
-                if (!carreras.contains(infoMaterias[i].getParesCarreraMateria()[j].getCarrera())) { // si la carrera que dice ahí no está en mi lista de carreras, la agrego.
+                } // OBS si no ponía este if se quejaba en el segundo cuando el array estaba vacío y le preguntaba si contains
+                    
+                // si la carrera que dice ahí no está en mi lista de carreras, la agrego.
+                if (!carreras.contains(infoMaterias[i].getParesCarreraMateria()[j].getCarrera())) { 
                     carreras.add(infoMaterias[i].getParesCarreraMateria()[j].getCarrera());
                 }
             }
@@ -80,10 +83,8 @@ public class SistemaSIU {
 
         //este for define como valor de la clave "nombreDeCarrera" (carreras.get[i]) a un nuevo Trie<Materia>
         for (int i = 0; i < carreras.size(); i++) {
-            if (facultad.obtener(carreras.get(i)) == null){
                 Trie<Materia> carrera = new Trie<Materia>();
                 facultad.definir(carreras.get(i), carrera);
-            }
         }
 
         //hasta ahora tenemos la raíz del SistemaSIU apuntando a un Trie<Alumnos> (cuyas claves son libretas y sus valores ints) y a un Trie<Materia> (cuyas claves son los nombres de las materias y sus valores, por ahora vacíos, son de la clase Materia).

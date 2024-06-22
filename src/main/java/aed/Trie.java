@@ -94,7 +94,8 @@ public class Trie<T> implements Diccionario<String, T> {
                 return actual.definicion;
             }
             else { // Si no estoy al final de la clave, avanzo
-                    actual = actual.hijos.get((int) listaClave[indice]);
+                //actual.hijos.get((int) listaClave[indice])    
+                actual = actual.hijos.get((int) listaClave[indice]);
             }
         }
         return actual.definicion; // En el caso de que no entre en el for, es decir sea la clave vacía
