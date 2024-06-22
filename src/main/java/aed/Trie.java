@@ -8,12 +8,8 @@ public class Trie<T> implements Diccionario<String, T> {
     private int tamaño;
 
     private class Nodo {
-        
-        //Character letra;
-        //char letra; 
-            // OBS me parece que esto es al pedo, la letra (o el caracter ascii) está representado por la posición en hijos
-        
-            T definicion;
+
+        T definicion;
         ArrayList<Nodo> hijos;    
         
         Nodo() {
@@ -25,10 +21,6 @@ public class Trie<T> implements Diccionario<String, T> {
             }
             this.definicion = null;
         }
-
-        /*public char letra(){
-            return 
-        }*/
 
         private int tamañoDeHijos(){
             int contador = 0;
@@ -53,14 +45,14 @@ public class Trie<T> implements Diccionario<String, T> {
         return tamaño;
     }
 
-    public boolean esta(String clave) { //Santi: No lo revisé faltaría chequear y pasar en limpio.
+    public boolean esta(String clave) {
         Nodo actual = raiz;
         //int indice = 0;
-        char[] listaClave = clave.toCharArray(); //clave.toString().toCharArray(); 
+        char[] listaClave = clave.toCharArray();
         // si hago clave.toCharArray() me tira el error The method toCharArray() is undefined for the type String
         
 
-        if (listaClave.length == 0){ // si clave == "" digo false, excede los 256 caracteres de ascii me parece
+        if (listaClave.length == 0){ // si clave == "" digo false
             return false; // no me fijé en la especificación, quizás esto está de más
         }
         else {
@@ -100,7 +92,7 @@ public class Trie<T> implements Diccionario<String, T> {
         return actual.definicion; // En el caso de que no entre en el for, es decir sea la clave vacía
     }
 
-    public void definir(String clave, T valor){ //FUNCIONA
+    public void definir(String clave, T valor){
         Nodo actual = raiz;
         char[] listaClave = clave.toCharArray(); // paso de 'clave' a ['c','l','a','v','e'], se entiende
         for (int indice = 0; indice < listaClave.length; indice++){ // Hago un for recorriendo ['c','l','a','v','e']

@@ -1,7 +1,7 @@
 package aed;
 
 import java.util.ArrayList;
-
+import java.util.Arrays;
 import javax.crypto.spec.RC2ParameterSpec;
 
 public class SistemaSIU {
@@ -17,7 +17,6 @@ public class SistemaSIU {
         PROF
     }
 
-    //IMPORTANTE debugueando el segundo test ()
     public SistemaSIU(InfoMateria[] infoMaterias, String[] libretasUniversitarias){
         
         // inicializo los atributos privados.
@@ -26,15 +25,17 @@ public class SistemaSIU {
         ArrayList<String> carreras = new ArrayList<String>();
 
         //este for agrega las libretas de todos los alumnos al Trie alumnos, y no asigna ninguna inscripción a materias
-        for(int i=0; i < libretasUniversitarias.length; i++) {  // ESTO YA LO CHEQUIÉ Y FUNCIONA BIEN
+        for(int i=0; i < libretasUniversitarias.length; i++) {  
             Alumno alumno = new Alumno(libretasUniversitarias[i]);
             alumnos.definir(libretasUniversitarias[i], alumno); 
         }
-        
+
+/////////////////////// 
+
+//PROBABLEMENTE AL PEDO
         //este for agrega las carreras a la lista de carreras.
                     // OBS infoMaterias.length me dice cuántas materias distintas hay (o sea sin contar las repetidas)
-        for (int i=0; i < infoMaterias.length; i++) { 
-                // ESTO YA LO CHEQUIÉ Y FUNCIONA BIEN (no hay nada que chequear pero bueno)         
+        for (int i=0; i < infoMaterias.length; i++) {         
             for (int j = 0; j < infoMaterias[i].getParesCarreraMateria().length; j++){ 
                 
                 if (j == 0 && i == 0){
@@ -47,10 +48,10 @@ public class SistemaSIU {
                 }
             }
         }
-
+            
+////////////////////// 
 
         //este for define como valor de la clave "nombreDeCarrera" (carreras.get[i]) a un nuevo Trie<Materia>
-        // ESTO YA LO CHEQUIÉ Y FUNCIONA BIEN
         for (int i = 0; i < carreras.size(); i++) {
                 Trie<Materia> carrera = new Trie<Materia>();
                 facultad.definir(carreras.get(i), carrera);
@@ -58,7 +59,7 @@ public class SistemaSIU {
 
     //hasta ahora tenemos la raíz del SistemaSIU apuntando a un Trie<Alumnos> (cuyas claves son libretas y sus valores ints) 
     //y a un Trie<Materia> (cuyas claves son los nombres de las materias y sus valores, por ahora vacíos, son de la clase Materia).
-    //ahora falta asignarle las definiciones (materias) a cada carrera
+    //ahora falta definir las materias de cada carrera
         for (int i = 0; i < infoMaterias.length; i++) { // OBS infoMaterias.length me dice cuántas materias distintas hay (o sea sin contar las repetidas)
             
             Materia materia = new Materia(infoMaterias[i]); // creo las materias que se dictan en la facu. después voy a poder cerrarlas, pero no agregar materias nuevas
@@ -116,17 +117,20 @@ public class SistemaSIU {
     }
 
     public String[] carreras(){ 
+
         String[] listaCarreras = new String[this.carreras.size()];
-        //ArrayList<String> carrerasOredenadas = this.carreras.sort(); // habría que hacer una función que ordene el array carreras o aprender a usar el método sort()
         
         for (int i = 0; i< carreras.size(); i++) {
             listaCarreras[i] = carreras.get(i);
         }
-        return listaCarreras;	    
+        Arrays.sort(listaCarreras);
+        return listaCarreras;
+        
     }
 
     public String[] materias(String carrera){
-        throw new UnsupportedOperationException("Método no implementado aún");	    
+        
+        
     }
 
     //private String[] ordenarLexicograficamente(String[] lista) {}
