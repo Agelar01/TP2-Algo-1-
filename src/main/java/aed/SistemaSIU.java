@@ -111,6 +111,7 @@ public class SistemaSIU {
             while (j < listaDeMaterias.length){
                 if (facultad.obtener(listaDeCarreras[i]).esta(listaDeMaterias[j])){
                 facultad.obtener(listaDeCarreras[i]).eliminar(listaDeMaterias[j]);
+                    i++;
                 }
                 j++;
             }
