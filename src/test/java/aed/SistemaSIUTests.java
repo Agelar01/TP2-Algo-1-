@@ -196,14 +196,24 @@ public class SistemaSIUTests {
         assertEquals(102, sistema.inscriptos("Técnicas de Diseño de Algoritmos", "Ciencias de la Computación"));
         assertEquals(200, sistema.inscriptos("Algoritmos", "Ciencias de la Computación"));
         assertEquals(0, sistema.inscriptos("Análisis I", "Ciencias de Datos"));
-        assertTrue(sistema.excedeCupo("Intro a la Programación", "Ciencias de la Computación"));
+        
+        assertTrue(sistema.excedeCupo("Intro a la Programación", "Ciencias de la Computación")); 
+        // #inscriptos = 102, CUPO = 1500, plantelIP = plantelAlgo = {2 prof, 3 jtp, 5 ay1, 20 ay2} => el cupo de IP es cupo = 2*250 + 3*100 + 5*20 + 20*30 
+        
         sistema.agregarDocente(SistemaSIU.CargoDocente.AY1, "Ciencias de la Computación", "Intro a la Programación");
         assertFalse(sistema.excedeCupo("Algoritmos1", "Ciencias de Datos"));
         assertFalse(sistema.excedeCupo("Algoritmos2", "Ciencias de Datos"));
         sistema.inscribir(nuevos_inscriptos[200], "Ciencias de la Computación", "Algoritmos");
-        assertTrue(sistema.excedeCupo("Algoritmos2", "Ciencias de Datos"));
-        assertTrue(sistema.excedeCupo("Técnicas de Diseño de Algoritmos", "Ciencias de la Computación"));
-        assertTrue(sistema.excedeCupo("Química General e Inorgánica 1", "Ciencias Biológicas"));
+        
+        assertTrue(sistema.excedeCupo("Algoritmos2", "Ciencias de Datos")); 
+        // #inscriptos = 200, CUPO = 1050, plantelAlgo2 = {1, 3, 10, 10}, CUPO = 1*250 + 3*100 + 10*20 + 10*30
+        
+        assertTrue(sistema.excedeCupo("Técnicas de Diseño de Algoritmos", "Ciencias de la Computación")); 
+        // #inscriptos = 102, CUPO = 1300, plantelTDA = {0, 8, 10, 10}, CUPO = 8*100 + 10*20 + 10*30, 
+        
+        assertTrue(sistema.excedeCupo("Química General e Inorgánica 1", "Ciencias Biológicas")); 
+        // #inscriptos = 10, , CUPO = 250, plantelQuimG = {1, 0, 0, 0}
+        
         assertFalse(sistema.excedeCupo("Análisis II", "Ciencias Matemáticas"));
     }
 

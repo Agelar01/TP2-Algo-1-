@@ -15,7 +15,7 @@ public class Trie<T> implements Diccionario<String, T> {
         Nodo() {
             this.hijos = new ArrayList<>();
             int i = 0;
-            while (i < 256){ // Si quiero hacer esto, para qué uso un ArrayList y no un array normal? //porque lo dice el pdf de la clase jeje 
+            while (i < 256){
                 this.hijos.add(null);
                 i++;
             }
@@ -47,13 +47,10 @@ public class Trie<T> implements Diccionario<String, T> {
 
     public boolean esta(String clave) {
         Nodo actual = raiz;
-        //int indice = 0;
         char[] listaClave = clave.toCharArray();
-        // si hago clave.toCharArray() me tira el error The method toCharArray() is undefined for the type String
-        
 
         if (listaClave.length == 0){ // si clave == "" digo false
-            return false; // no me fijé en la especificación, quizás esto está de más
+            return false; 
         }
         else {
             for (int indice = 0; indice < listaClave.length; indice++){
@@ -81,7 +78,7 @@ public class Trie<T> implements Diccionario<String, T> {
     public T obtener(String clave){
         Nodo actual = raiz;
         char[] listaClave = clave.toCharArray();
-        for (int indice = 0; indice < listaClave.length + 1; indice++){ // Más uno pq el primer indice es para la raíz
+        for (int indice = 0; indice < listaClave.length + 1; indice++){ // Más uno porque el primer indice es para la raíz
             if (indice == listaClave.length){ // Si estoy al final de la clave, devuelvo el valor
                 return actual.definicion;
             }
@@ -94,11 +91,10 @@ public class Trie<T> implements Diccionario<String, T> {
 
     public void definir(String clave, T valor){
         Nodo actual = raiz;
-        char[] listaClave = clave.toCharArray(); // paso de 'clave' a ['c','l','a','v','e'], se entiende
-        for (int indice = 0; indice < listaClave.length; indice++){ // Hago un for recorriendo ['c','l','a','v','e']
-            if (actual.hijos.get((int) listaClave[indice]) == null) { //  Avanzo creando un nodo si no había palabra con este char
+        char[] listaClave = clave.toCharArray(); // paso de 'clave' a {'c','l','a','v','e'}
+        for (int indice = 0; indice < listaClave.length; indice++){ // Hago un for recorriendo {'c','l','a','v','e'}
+            if (actual.hijos.get((int) listaClave[indice]) == null) { // Avanzo creando un nodo si no había palabra con este char
                 Nodo nuevo = new Nodo();
-                //nuevo.letra = listaClave[indice];
                 actual.hijos.set((int) listaClave[indice], nuevo); // Añado un nodo nuevo en actual.hijos en la posición posición indicada por (int) listaClave[indice] 
                 if (indice == listaClave.length - 1){ // Si es el final de la clave, le añado el valor
                     nuevo.definicion = valor;
@@ -108,14 +104,14 @@ public class Trie<T> implements Diccionario<String, T> {
             else { // si en el Trie ya hay una palabra que empieza con el char listaClave[indice], avanzo al nodo que corresponde a ese caracter
                 actual = actual.hijos.get((int) listaClave[indice]); // Avanzo si ya había palabra con ese char 
                 if (indice == listaClave.length - 1){ // Si estoy en el final de mi clave, añado el valor
-                    actual.definicion = valor;
+                    actual.definicion = valor; 
                 }
             }
         }
         tamaño++;
     } 
 
-    public void eliminar(String clave){ // ANDA, faltaría testearla más
+    public void eliminar(String clave){
         Nodo actual = raiz;
         char[] listaClave = clave.toCharArray();
         Nodo ultimoNodo = raiz; // Último nodo que NO hay que borrar
@@ -127,11 +123,11 @@ public class Trie<T> implements Diccionario<String, T> {
                 actual.hijos.set((int) listaClave[ultimoIndice], null); // Le borro el hijo correspondiente al último que no hay que borrar
                 }
                 else {
-                    actual.hijos.get((int) listaClave[indice]).definicion = null; // Si si hay otra clave con este prefijo, solo le borro el significado
+                    actual.hijos.get((int) listaClave[indice]).definicion = null; // Si si hay otra clave con este prefijo, sólo le borro el significado
                 } 
                 tamaño--;
             }
-            if (actual.tamañoDeHijos() >= 2 || (indice != listaClave.length -1 && actual.definicion != null)){ // Actualizo el último a no borrar: Si el nodo es el final de una clave, o si tiene dos hijos (Solo quiero borrarle uno).
+            if (actual.tamañoDeHijos() >= 2 || (indice != listaClave.length -1 && actual.definicion != null)){ // Actualizo el último nodo que no hay que borrar: si el nodo es el final de una clave, o si tiene dos hijos (sólo quiero borrarle uno).
                 ultimoNodo = actual;
                 ultimoIndice = indice;
                 actual = actual.hijos.get((int) listaClave[indice]);

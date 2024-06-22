@@ -6,7 +6,7 @@ public class SistemaSIU {
 
     private Trie<Trie<Materia>> facultad; // Trie cuyas claves son strings con los nombres de las carreras. los valores son Tries cuyas claves son strings con el nombre de las materias y sus valores son de clase Materia.
     private Trie<Alumno> alumnos; // Trie cuyas claves son strings de las libretas de todos los alumnos de la facultad. sus valores son las cantidades de materias en las que están inscriptos los alumnos. 
-    private ArrayList<String> carreras; // algo para guardar las carreras. lo podemos reemplazar por el de abajo
+    private ArrayList<String> carreras; // lista para guardar las carreras. lo podemos reemplazar por el de abajo
     private InfoMateria[] infoMaterias; // 
 
     enum CargoDocente{
@@ -55,7 +55,7 @@ public class SistemaSIU {
                 facultad.definir(carreras.get(i), carrera);
         }
 
-    //hasta ahora tenemos la raíz del SistemaSIU apuntando a un Trie<Alumnos> (cuyas claves son libretas y sus valores ints) 
+    //hasta ahora tenemos la raíz del SistemaSIU que tiene como atributos a un Trie<Alumnos> (cuyas claves son libretas y sus valores ints) 
     //y a un Trie<Materia> (cuyas claves son los nombres de las materias y sus valores, por ahora vacíos, son de la clase Materia).
     //ahora falta definir las materias de cada carrera
         for (int i = 0; i < infoMaterias.length; i++) { // OBS infoMaterias.length me dice cuántas materias distintas hay (o sea sin contar las repetidas)
@@ -75,10 +75,7 @@ public class SistemaSIU {
 
     public void inscribir(String estudiante, String carrera, String materia){
         facultad.obtener(carrera).obtener(materia).inscribirAlumno(estudiante);
-        //int cantMat = alumnos.obtener(estudiante).cantMaterias();
         alumnos.obtener(estudiante).sumarUnaInscripcion();
-        // para todos los métodos que siguen, creo que esto es lo que queremos que funcione
-        // por eso quiero poner private Trie<String,  Materia> facultad 
     }
 
     public void agregarDocente(CargoDocente cargo, String carrera, String materia){
@@ -141,7 +138,6 @@ public class SistemaSIU {
         }
         
         return listaCarreras;
-         
         
     }
 
@@ -166,8 +162,6 @@ public class SistemaSIU {
         return listaMaterias;
     
     }
-
-    //private String[] ordenarLexicograficamente(String[] lista) {}
 
     public int materiasInscriptas(String estudiante){
         return alumnos.obtener(estudiante).cantMaterias();	    

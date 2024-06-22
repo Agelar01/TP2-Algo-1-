@@ -1,9 +1,7 @@
 package aed;
 
-// quizás es al pedo toda esta clase
-public class Alumno/*<T extends Trie<T>>*//* ????? */ {
+public class Alumno {
     private String libreta;
-    //private Integer cantMaterias;
     private int cantMaterias;
 
     public Alumno(String libreta) {
@@ -23,5 +21,9 @@ public class Alumno/*<T extends Trie<T>>*//* ????? */ {
 
     public int cantMaterias() {
         return this.cantMaterias;
+    }
+
+    private String libreta() {
+        return this.libreta;
     }
 }

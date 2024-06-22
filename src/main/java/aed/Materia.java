@@ -4,15 +4,13 @@ import java.util.ArrayList;
 
 //objeto materia con atributos que representan la cant de cada tipo de docente, la lista de los alumnos inscriptos, punteros a los distintos nombres de la materia 
 public class Materia {
-    //private String nombre;
     private int profesores;
     private int jtps;
     private int ayudantes1;
     private int ayudantes2; 
     private ArrayList<String> alumnosInscriptos;
-    private InfoMateria paresCarreraMateria; // me parece que con esto no puedo hacer borrarMateria en O(1) pero bueno
-    // padres?? no sé cómo representarlos
-    //private Nodo[] padres;
+    private InfoMateria paresCarreraMateria;
+
 
 
     //Constructor. inicializa una materia nueva con 0 inscriptos y 0 docentes
