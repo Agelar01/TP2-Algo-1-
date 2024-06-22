@@ -1,8 +1,6 @@
 package aed;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import javax.crypto.spec.RC2ParameterSpec;
 
 public class SistemaSIU {
 
@@ -117,19 +115,22 @@ public class SistemaSIU {
     }
 
     public String[] carreras(){ 
-
+    
         String[] listaCarreras = new String[this.carreras.size()];
         
+        carreras.sort(null);
+
         for (int i = 0; i< carreras.size(); i++) {
             listaCarreras[i] = carreras.get(i);
         }
-        Arrays.sort(listaCarreras);
+        
         return listaCarreras;
+         
         
     }
 
     public String[] materias(String carrera){
-        
+
         
     }
 
