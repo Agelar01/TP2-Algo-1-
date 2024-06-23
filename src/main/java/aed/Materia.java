@@ -10,7 +10,7 @@ public class Materia {
     private int ayudantes2; 
     private ArrayList<String> alumnosInscriptos;
     private InfoMateria paresCarreraMateria;
-
+    private ArrayList<Trie> padres;
 
 
     //Constructor. inicializa una materia nueva con 0 inscriptos y 0 docentes
@@ -21,10 +21,15 @@ public class Materia {
         ayudantes1 = 0;
         ayudantes2 = 0;
         alumnosInscriptos = new ArrayList<String>();
+        padres = new ArrayList<Trie>();
     }
 
-    public void agregarPROF() {
-        this.profesores++;
+    public void agregarPadre(Trie<Materia> carrera) {
+        this.padres.add(carrera);
+    }
+
+    public void borrarPadre(Trie<Materia> carrera) {
+        this.padres.remove(carrera);
     }
 
     public int cupo() {
@@ -57,6 +62,11 @@ public class Materia {
         plantel[3] = this.ayudantes2;
         return plantel;
     }
+    
+    public void agregarPROF() {
+        this.profesores++;
+    }
+
     public void sacarPROF() {
         if (this.profesores > 0) {
             this.profesores--;

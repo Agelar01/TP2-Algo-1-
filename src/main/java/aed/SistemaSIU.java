@@ -63,7 +63,9 @@ public class SistemaSIU {
             Materia materia = new Materia(infoMaterias[i]); // creo las materias que se dictan en la facu. después voy a poder cerrarlas, pero no agregar materias nuevas
             
             for (int j = 0; j < infoMaterias[i].getParesCarreraMateria().length; j++) { // OBS infoMaterias[i].getParesuCarreraMateria().length me dice en cuántas carreras está la materia (o cuántos nombres tiene la materia)
-                facultad.obtener(infoMaterias[i].getParesCarreraMateria()[j].getCarrera()).definir(infoMaterias[i].getParesCarreraMateria()[j].getNombreMateria(), materia); 
+                Trie<Materia> carrera = facultad.obtener(infoMaterias[i].getParesCarreraMateria()[j].getCarrera()); 
+                materia.agregarPadre(carrera); // agrego un puntero al Trie con la carrera en la que está la materia 
+                carrera.definir(infoMaterias[i].getParesCarreraMateria()[j].getNombreMateria(), materia); 
                  //facultad.obtener(nombre de carrera) es de tipo Trie<Materia>
             }
         }
@@ -101,7 +103,7 @@ public class SistemaSIU {
     }
 
     public void cerrarMateria(String materia, String carrera){
-         String[] listaDeCarreras = facultad.obtener(carrera).obtener(materia).listaCarreras();
+        String[] listaDeCarreras = facultad.obtener(carrera).obtener(materia).listaCarreras();
         String[] listaDeMaterias = facultad.obtener(carrera).obtener(materia).listaNombresMateria();
 
         int i = 0;
