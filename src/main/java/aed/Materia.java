@@ -10,18 +10,22 @@ public class Materia {
     private int ayudantes2; 
     private ArrayList<String> alumnosInscriptos;
     private InfoMateria paresCarreraMateria;
-    private ArrayList<Trie> padres;
+    private ArrayList<Trie<Materia>> padres;
 
 
     //Constructor. inicializa una materia nueva con 0 inscriptos y 0 docentes
-    public Materia( InfoMateria paresCarreraMateria){ 
+    public Materia(InfoMateria paresCarreraMateria) { 
         this.paresCarreraMateria = paresCarreraMateria;
         profesores = 0;
         jtps = 0;
         ayudantes1 = 0;
         ayudantes2 = 0;
         alumnosInscriptos = new ArrayList<String>();
-        padres = new ArrayList<Trie>();
+        padres = new ArrayList<Trie<Materia>>();
+    }
+
+    public ArrayList<Trie<Materia>> getPadres() {
+        return this.padres;
     }
 
     public void agregarPadre(Trie<Materia> carrera) {

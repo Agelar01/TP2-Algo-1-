@@ -31,6 +31,7 @@ public class SistemaSIU {
 
 /////////////////////// 
 
+ 
         //este for agrega las carreras a la lista de carreras.
                     // OBS infoMaterias.length me dice cuántas materias distintas hay (o sea sin contar las repetidas)
         for (int i=0; i < infoMaterias.length; i++) {         
@@ -69,6 +70,7 @@ public class SistemaSIU {
                  //facultad.obtener(nombre de carrera) es de tipo Trie<Materia>
             }
         }
+    
         this.alumnos = alumnos;
         this.carreras = carreras;
         this.facultad = facultad;
@@ -103,7 +105,68 @@ public class SistemaSIU {
     }
 
     public void cerrarMateria(String materia, String carrera){
-        String[] listaDeCarreras = facultad.obtener(carrera).obtener(materia).listaCarreras();
+        Trie<Materia> carr = facultad.obtener(carrera);
+        Materia materiaABorrar = carr.obtener(materia);
+        ArrayList<Trie<Materia>> listaPadres = materiaABorrar.getPadres();
+        ParCarreraMateria[] paresCM = materiaABorrar.infoMateria();
+        ArrayList<String> alumnosInscriptos = materiaABorrar.alumnosInscriptos();
+        int cantNombres = paresCM.length;
+        //String[] listaDeCarreras = materiaABorrar.listaCarreras();
+        //String[] listaDeMaterias = materiaABorrar.listaNombresMateria();
+
+    
+        // desincribo a los alumnos
+        int cantidadAlumnosInscriptos = materiaABorrar.cantidadAlumnosInscriptos();
+        while (cantidadAlumnosInscriptos > 0) {
+            alumnos.obtener(alumnosInscriptos.get(0)).restarUnaInscripcion();
+            materiaABorrar.desinscribirAlumno(alumnosInscriptos.get(0));
+            cantidadAlumnosInscriptos--;
+        }
+
+        int i = 0;
+        while (i < cantNombres) {
+            listaPadres.get(i).eliminar(paresCM[i].getNombreMateria());
+            i++;
+        }
+
+        for (int j = 0; j < this.infoMaterias.length; j++) {
+                if (this.infoMaterias[j].getParesCarreraMateria() == paresCM) {
+                    this.infoMaterias[j] = null;
+            }   
+        }
+
+        //listaPadres.clear();
+        /*
+
+        int j = 0;
+        while (j < cantNombres) { // esto no funciona porque listaPadres.get(i) no es la misma carrera que listaCarreras[i]        
+               if (condition) {
+                
+            }
+                listaPadres.get(0).eliminar(listaDeMaterias[0]);
+                materiaABorrar.borrarPadre(listaPadres.get(0));
+                facultad.obtener(listaDeCarreras[0]).eliminar(listaDeMaterias[0]);
+            j++;
+        }
+            
+        
+
+        //facultad.obtener(carrera).eliminar(materia);
+    
+          //CREO QUE ESTO NO LO NECESITO SI ME SALE LO QUE QUIERO HACER JUSTO ANTES
+        int i = 0;
+        while(i < cantNombres){
+            if (facultad.obtener(listaDeCarreras[0]).esta(listaDeMaterias[0])) {
+                facultad.obtener(listaDeCarreras[0]).eliminar(listaDeMaterias[0]);
+            }
+            i++;
+        }
+    
+ */
+
+
+        // lo que hizo Antú
+        /*String[] listaDeCarreras = facultad.obtener(carrera).obtener(materia).listaCarreras();
         String[] listaDeMaterias = facultad.obtener(carrera).obtener(materia).listaNombresMateria();
 
         int i = 0;
@@ -118,8 +181,7 @@ public class SistemaSIU {
                 j++;
             }
         i++;
-
-        }
+        }*/
     }
 
     public int inscriptos(String materia, String carrera){
@@ -147,9 +209,11 @@ public class SistemaSIU {
     public String[] materias(String carrera){
         ArrayList<String> lista = new ArrayList<String>(); 
         for (int i = 0; i < this.infoMaterias.length; i++) {
-            for (int j = 0; j < infoMaterias[i].getParesCarreraMateria().length; j++){
-                if (infoMaterias[i].getParesCarreraMateria()[j].getCarrera() == carrera) {
-                    lista.add(infoMaterias[i].getParesCarreraMateria()[j].getNombreMateria());
+            if(this.infoMaterias[i] != null){
+                for (int j = 0; j < this.infoMaterias[i].getParesCarreraMateria().length; j++){
+                    if (this.infoMaterias[i].getParesCarreraMateria()[j].getCarrera() == carrera) {
+                        lista.add(this.infoMaterias[i].getParesCarreraMateria()[j].getNombreMateria());
+                    }
                 }
             }
         }
