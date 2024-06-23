@@ -111,11 +111,8 @@ public class SistemaSIU {
         ParCarreraMateria[] paresCM = materiaABorrar.infoMateria();
         ArrayList<String> alumnosInscriptos = materiaABorrar.alumnosInscriptos();
         int cantNombres = paresCM.length;
-        //String[] listaDeCarreras = materiaABorrar.listaCarreras();
-        //String[] listaDeMaterias = materiaABorrar.listaNombresMateria();
-
     
-        // desincribo a los alumnos
+        // desincribe a los alumnos
         int cantidadAlumnosInscriptos = materiaABorrar.cantidadAlumnosInscriptos();
         while (cantidadAlumnosInscriptos > 0) {
             alumnos.obtener(alumnosInscriptos.get(0)).restarUnaInscripcion();
@@ -123,12 +120,14 @@ public class SistemaSIU {
             cantidadAlumnosInscriptos--;
         }
 
+        // borra la materia de todas las carreras de las que forma parte
         int i = 0;
         while (i < cantNombres) {
             listaPadres.get(i).eliminar(paresCM[i].getNombreMateria());
             i++;
         }
 
+        // saca la materia de la lista de materias de la facultad
         for (int j = 0; j < this.infoMaterias.length; j++) {
                 if (this.infoMaterias[j].getParesCarreraMateria() == paresCM) {
                     this.infoMaterias[j] = null;
