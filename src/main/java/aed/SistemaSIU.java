@@ -47,7 +47,29 @@ public class SistemaSIU {
                 }
             }
         }
+
+        /*
+    
+        for (int i=0; i < infoMaterias.length; i++) {         
+            for (int j = 0; j < infoMaterias[i].getParesCarreraMateria().length; j++){ 
+                
+                if (j == 0 && i == 0){
+                    carreras.add(infoMaterias[i].getParesCarreraMateria()[j].getCarrera());
+                } // OBS si no ponía este if se quejaba en el segundo cuando el array estaba vacío y le preguntaba si contains
             
+                Trie<Materia> carrera = new Trie<Materia>();
+                facultad.definir(infoMaterias[i].getParesCarreraMateria()[j].getCarrera()), carrera);
+
+                //Aca para bajar la complejidad podriamos usar facultad.esta() para ver si la carrera a agregar esta
+                 
+                // si la carrera que dice ahí no está en mi lista de carreras, la agrego.
+                if (!carreras.contains(infoMaterias[i].getParesCarreraMateria()[j].getCarrera())) { 
+                    carreras.add(infoMaterias[i].getParesCarreraMateria()[j].getCarrera());
+                }
+            }
+        }
+             
+        */
 ////////////////////// 
 
         //este for define como valor de la clave "nombreDeCarrera" (carreras.get[i]) a un nuevo Trie<Materia>
