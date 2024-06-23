@@ -137,4 +137,39 @@ public class Trie<T> implements Diccionario<String, T> {
             }
         }
     }
+
+    public ArrayList<String> devolverListaStrings(Trie<T> Trie){                                // No sé bien si usar Trie o usar Nodo
+        Nodo nodo = Trie.raiz;
+        ArrayList<String> listaStrings = new ArrayList<String>();
+                                                                                                 // No se puede acceder a los nodos desde SistemaSiu y no sé como hacerlos públicos
+                                                                                                  // Esta función está para usar la auxiliar y usarla desde SistemasSiu
+        
+        return devolverListaStringsAux(listaStrings, nodo);
+    }
+
+    public ArrayList<String> devolverListaStringsAux(ArrayList<String> arrayListString, Nodo nodo){
+        Nodo actual = nodo;
+        int i = 0;
+        while (i < 256){
+            if (actual.hijos.get(i).definicion != null){                        //Si hay un significado
+                arrayListString.add(actual.hijos.get(i).definicion.toString()); //Lo hago un string y la pongo en la lista
+                    if (actual.hijos.get(i).tamañoDeHijos() != 0){              //Veo si este camino tiene más significados
+
+                        devolverListaStringsAux(arrayListString, actual.hijos.get(i)); // Hago recursión si hay más significados
+                    }
+                    else {                                                              //De no haber avanzo por el array
+                        i++;
+                    }
+            }
+            else {
+                if (actual.hijos.get(i).tamañoDeHijos() == 0){                  //Si no hay significado en el nodo, avanzo por el array
+                    i++;
+                }
+                else {                                                          //De haber significado avanzo al nodo siguiente
+                    actual = actual.hijos.get(i);
+                }
+            }
+        }
+        return arrayListString;
+    }
 }
