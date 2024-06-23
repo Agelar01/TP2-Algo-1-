@@ -4,6 +4,12 @@ import java.util.ArrayList;
 
 public class Trie<T> implements Diccionario<String, T> {
 
+    /*
+    Inv de representación: 
+        - Todos los nodos tienen un único padre (salvo la raíz).
+        - Todos los nodos tienen o hijos, o significado.
+    */
+
     private Nodo raiz;
     private int tamaño;
 
@@ -49,23 +55,28 @@ public class Trie<T> implements Diccionario<String, T> {
         Nodo actual = raiz;
         char[] listaClave = clave.toCharArray();
 
-        if (listaClave.length == 0){ // si clave == "" digo false
+        if (listaClave.length == 0){ // Si clave == "" digo false
             return false; 
         }
         else {
             for (int indice = 0; indice < listaClave.length; indice++){
-                if (indice == listaClave.length - 1){ // si estoy al final de la clave y:
-                    if (actual.hijos.get((int) listaClave[indice]).definicion == null){ // no hay definición, digo false
+                if (indice == listaClave.length - 1){ // Si estoy al final de la clave y:
+                    // No hay definición, digo false;
+                    if (actual.hijos.get((int) listaClave[indice]) != null && actual.hijos.get((int) listaClave[indice]).definicion == null){
                         return false;
-                    } 
-                    if (actual.hijos.get((int) listaClave[indice]).definicion != null){ // hay definición, digo true
+                    }
+                    // Hay definición, digo true; 
+                    if (actual.hijos.get((int) listaClave[indice]) != null && actual.hijos.get((int) listaClave[indice]).definicion != null){
                         return true;
                     }
                 } 
-                else { // si no estoy al final de la clave, avanzo
-                    if (actual == null){
-                        return false; // no puedo llegar al nodo que representa la clave
-                    } 
+                else { // Si no estoy al final de la clave, avanzo:
+                    if (actual == null) {
+                        return false; // No puedo llegar al nodo que representa la clave;
+                    }
+                    if (actual.hijos.get((int) listaClave[indice]) == null) {
+                        return false; // no puedo llegar al nodo que representa la clave;
+                    }
                     else{
                         actual = actual.hijos.get((int) listaClave[indice]);
                     }
@@ -99,9 +110,9 @@ public class Trie<T> implements Diccionario<String, T> {
                 if (indice == listaClave.length - 1){ // Si es el final de la clave, le añado el valor
                     nuevo.definicion = valor;
                 }
-                actual = nuevo; // avanzo al nodo que acabo de crear.
+                actual = nuevo; // Avanzo al nodo que acabo de crear
             }
-            else { // si en el Trie ya hay una palabra que empieza con el char listaClave[indice], avanzo al nodo que corresponde a ese caracter
+            else { // Si en el Trie ya hay una palabra que empieza con el char listaClave[indice], avanzo al nodo que corresponde a ese caracter
                 actual = actual.hijos.get((int) listaClave[indice]); // Avanzo si ya había palabra con ese char 
                 if (indice == listaClave.length - 1){ // Si estoy en el final de mi clave, añado el valor
                     actual.definicion = valor; 
@@ -116,60 +127,28 @@ public class Trie<T> implements Diccionario<String, T> {
         char[] listaClave = clave.toCharArray();
         Nodo ultimoNodo = raiz; // Último nodo que NO hay que borrar
         int ultimoIndice = 0;
-        for (int indice = 0; indice < listaClave.length; indice++){
-            if (indice == listaClave.length - 1){ // Si estoy al final de la clave
-                if(actual.hijos.get((int) listaClave[indice]).tamañoDeHijos() == 0){ // Si no hay claves con este mismo prefijo...
-                actual = ultimoNodo;
-                actual.hijos.set((int) listaClave[ultimoIndice], null); // Le borro el hijo correspondiente al último que no hay que borrar
-                }
-                else {
-                    actual.hijos.get((int) listaClave[indice]).definicion = null; // Si si hay otra clave con este prefijo, sólo le borro el significado
-                } 
-                tamaño--;
-            }
-            if (actual.tamañoDeHijos() >= 2 || (indice != listaClave.length -1 && actual.definicion != null)){ // Actualizo el último nodo que no hay que borrar: si el nodo es el final de una clave, o si tiene dos hijos (sólo quiero borrarle uno).
+
+        for (int indice = 0; indice < listaClave.length + 1; indice++) { // +1 porque indice = 0 mira la raíz
+            // Si estoy en un nodo con más de un hijo o que es final de otra palabra, no lo debo borrar
+            if (actual.tamañoDeHijos() > 1 || (actual.tamañoDeHijos() > 0 && actual.definicion != null)) {
                 ultimoNodo = actual;
                 ultimoIndice = indice;
+            }
+            if (indice == listaClave.length) { // Si estoy al final de la clave
+                actual.definicion = null; // Le borro la definición
+                tamaño--;
+                if (actual.tamañoDeHijos() == 0) { // Si el nodo al final de la clave no tiene hijos
+                    ultimoNodo.hijos.set((int) listaClave[ultimoIndice], null); // Borro todos los nodos que vienen después del último que no quiero borrar
+                }
+                if (actual.tamañoDeHijos() > 0) { // Si el nodo al final de la clave tiene hijos, ese nodo ese el último que no debo borrar
+                    ultimoNodo = actual; 
+                    ultimoIndice = indice;
+                }
+            }
+            else { // Si no estoy al final de la clave, avanzo
                 actual = actual.hijos.get((int) listaClave[indice]);
             }
-            else { // si no estoy al final de la clave, avanzo
-                    actual = actual.hijos.get((int) listaClave[indice]);
-            }
         }
     }
 
-    public ArrayList<String> devolverListaStrings(Trie<T> Trie){                                // No sé bien si usar Trie o usar Nodo
-        Nodo nodo = Trie.raiz;
-        ArrayList<String> listaStrings = new ArrayList<String>();
-                                                                                                 // No se puede acceder a los nodos desde SistemaSiu y no sé como hacerlos públicos
-                                                                                                  // Esta función está para usar la auxiliar y usarla desde SistemasSiu
-        
-        return devolverListaStringsAux(listaStrings, nodo);
-    }
-
-    public ArrayList<String> devolverListaStringsAux(ArrayList<String> arrayListString, Nodo nodo){
-        Nodo actual = nodo;
-        int i = 0;
-        while (i < 256){
-            if (actual.hijos.get(i).definicion != null){                        //Si hay un significado
-                arrayListString.add(actual.hijos.get(i).definicion.toString()); //Lo hago un string y la pongo en la lista
-                    if (actual.hijos.get(i).tamañoDeHijos() != 0){              //Veo si este camino tiene más significados
-
-                        devolverListaStringsAux(arrayListString, actual.hijos.get(i)); // Hago recursión si hay más significados
-                    }
-                    else {                                                              //De no haber avanzo por el array
-                        i++;
-                    }
-            }
-            else {
-                if (actual.hijos.get(i).tamañoDeHijos() == 0){                  //Si no hay significado en el nodo, avanzo por el array
-                    i++;
-                }
-                else {                                                          //De haber significado avanzo al nodo siguiente
-                    actual = actual.hijos.get(i);
-                }
-            }
-        }
-        return arrayListString;
-    }
 }
