@@ -28,7 +28,17 @@ public class Materia {
     }
 
     public int cupo() {
-        return 250*this.profesores + 100*this.jtps + 20*this.ayudantes1 + 30*this.ayudantes2;
+        int minimo = 250*this.profesores;
+        if(100*this.jtps < minimo) {
+            minimo = 100*this.jtps;
+        }
+        if (20*this.ayudantes1 < minimo) {
+            minimo = 20*this.ayudantes1;
+        }
+        if (30*this.ayudantes2 < minimo) {
+            minimo = 30*this.ayudantes2;
+        }
+        return minimo;
     }
 
     public ArrayList<String> alumnosInscriptos() {
