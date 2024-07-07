@@ -16,7 +16,6 @@ public class Materia {
         - Los ints que representan a los profesores son mayores o iguales a cero.
         - Los elementos de alumnosInscriptos son strings de LUs, no debe haber repetidos.
         - La var cantidadInscriptos es igual a la longitud de la lista AlumnosInscriptos.
-        --Falta hablar de paresCarreraMateria y padres.
     */
 
     private int profesores;

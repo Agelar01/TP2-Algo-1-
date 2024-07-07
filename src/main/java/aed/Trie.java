@@ -6,8 +6,9 @@ public class Trie<T> implements Diccionario<String, T> {
 
     /*
     Inv de representación: 
-        - Todos los nodos tienen un único padre (salvo la raíz).
-        - Todos los nodos tienen o hijos, o significado.
+        - Todos los nodos tienen un único padre (salvo la raíz y nodo con el significado).
+        - Es un árbol.
+        - Todos los nodos si no tienen hijos, tienen significado (no hay nodos inútiles).
     */
 
     private Nodo raiz;
@@ -147,6 +148,23 @@ public class Trie<T> implements Diccionario<String, T> {
             }
             else { // Si no estoy al final de la clave, avanzo
                 actual = actual.hijos.get((int) listaClave[indice]);
+            }
+        }
+    }
+
+    public String[] inorder() {
+        ArrayList<String> claves = new ArrayList<>();
+        inorderRecursivo(raiz, "", claves);
+        return claves.toArray(new String[0]); // Este último paso es necesario ya que luego el TP, nos lo pide en tipo Array y no ArrayList.
+    }
+
+    private void inorderRecursivo(Nodo nodo, String prefijo, ArrayList<String> claves) {
+        if (nodo.definicion != null) {
+            claves.add(prefijo);
+        }
+        for (int i = 0; i < 256; i++) {
+            if (nodo.hijos.get(i) != null) {
+                inorderRecursivo(nodo.hijos.get(i), prefijo + (char) i, claves);
             }
         }
     }

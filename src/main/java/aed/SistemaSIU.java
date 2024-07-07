@@ -11,15 +11,10 @@ public class SistemaSIU {
 
         - alumnos: Trie cuyas claves son strings de las libretas de todos los alumnos de la facultad 
         y sus valores son las cantidades de materias en las que están inscriptos los alumnos. 
-
-        - carreras: Lista para guardar las carreras.
-
-        - infoMaterias: Array de infoMaterias.
  
     Inv de representación: 
         - Todas las clases cumplen con su respectivo invariante de presentación.
         - Las claves del Trie facultad deben ser la primera componente de la tupla ParCarreraMateria.
-        - Los elementos de la lista carreras deben ser exactamente los mismos que las claves del Trie facultad.
         - Las claves del Trie materias, obtenido como valor del Trie facultad, deben ser elementos de la segunda componente de la tupla ParCarreraMateria.
         - Las claves del Trie alumno son las LUs (elems) de la lista libretasUniversitarias.
         - Los valores del Trie alumno deben ser como máximo la cantidad claves que haya en el Trie materias, obtenido como valor del Trie carrera.
@@ -29,8 +24,6 @@ public class SistemaSIU {
 
     private Trie<Trie<Materia>> facultad; 
     private Trie<Alumno> alumnos; 
-    private ArrayList<String> carreras; 
-    private InfoMateria[] infoMaterias; 
 
     enum CargoDocente{
         AY2,
@@ -57,7 +50,6 @@ public class SistemaSIU {
         // Inicializamos los atributos privados.
         Trie<Alumno> alumnos = new Trie<Alumno>();
         Trie<Trie<Materia>> facultad = new Trie<Trie<Materia>>();
-        ArrayList<String> carreras = new ArrayList<String>();
 
         /*
         Este for completa el Trie alumnos, con todas las LUs de libretasUniversitarias.
@@ -71,33 +63,21 @@ public class SistemaSIU {
 
 /////////////////////// 
 
-        // Este otro for agrega las carreras a la lista de carreras.
+        // Este otro for agrega las carreras al Trie facultad, y como valor asigna un Trie vacío, que luego llenaremos.
+        
+        // Cabe recalcar que no nos importa meter una misma carrera dos veces, 
+        // ya que se sobreescribirá y como el valor es un trie vacío, no habrá problemas.
         for (int i=0; i < infoMaterias.length; i++) {         
             for (int j = 0; j < infoMaterias[i].getParesCarreraMateria().length; j++){ 
-                
-                if (j == 0 && i == 0){
-                    carreras.add(infoMaterias[i].getParesCarreraMateria()[j].getCarrera());
-                }
-    
-                // si la carrera que dice ahí no está en mi lista de carreras, la agrego,
-                if (!carreras.contains(infoMaterias[i].getParesCarreraMateria()[j].getCarrera())) { 
-                    carreras.add(infoMaterias[i].getParesCarreraMateria()[j].getCarrera());
-                }
+                    Trie<Materia> carrera = new Trie<Materia>(); 
+                    facultad.definir(infoMaterias[i].getParesCarreraMateria()[j].getCarrera(), carrera);
             }
-        }
-
-////////////////////// 
-
-        // Este for define como valor de la clave "nombreDeCarrera" (carreras.get[i]) a un nuevo Trie<Materia>.
-        for (int i = 0; i < carreras.size(); i++) {
-                Trie<Materia> carrera = new Trie<Materia>();
-                facultad.definir(carreras.get(i), carrera);
         }
 
     // Hasta ahora tenemos la raíz del SistemaSIU que tiene como atributos a un Trie<Alumnos> (cuyas claves son libretas y sus valores ints),
     // y a un Trie<Materia> (cuyas claves son los nombres de las materias y sus valores, por ahora vacíos, son de la clase Materia),
 
-    // nos falta definir las materias de cada carrera:
+    // Nos falta definir las materias de cada carrera:
 
         for (int i = 0; i < infoMaterias.length; i++) {
             
@@ -111,17 +91,17 @@ public class SistemaSIU {
         }
     
         this.alumnos = alumnos;
-        this.carreras = carreras;
         this.facultad = facultad;
-        this.infoMaterias = infoMaterias;
     }
 
     //Complejidad: O(|c|+ |m|)
     public void inscribir(String estudiante, String carrera, String materia){
+
         facultad.obtener(carrera).obtener(materia).inscribirAlumno(estudiante);
         /* Esto accede al trie carreras, con el el nombre de la carrera |c|,
         luego baja por el segundo trie con el nombre de la materia |m|,
         y en o(1) inscribe al alumno, añadiendolo en una lista. */
+
         alumnos.obtener(estudiante).sumarUnaInscripcion();
         /* Esto baja por el trie estudiante con su LU como clave, pero como está acotada, es O(1) acceder a su significado.
         y luego en o(1) le suma uno a sus materias inscriptas. */
@@ -129,9 +109,11 @@ public class SistemaSIU {
 
     // Complejidad: O(|c|+ |m|)
     public int inscriptos(String materia, String carrera){
+
         /* Primero bajamos por el primer trie con el nombre de la carrera |c|,
         luego bajamos por el segundo trie con el nombre de la materia |m|,
         y luego devolvemos en O(1) la cantidad de inscriptos ya que tenemos guardada esa variable. */
+
         return facultad.obtener(carrera).obtener(materia).cantidadAlumnosInscriptos();    
     }
 
@@ -152,6 +134,7 @@ public class SistemaSIU {
         if (cargo == CargoDocente.AY2) { 
             facultad.obtener(carrera).obtener(materia).agregarAY2();
         }
+
         /* Hacemos comparaciones con una tupla en O(1),
         luego bajamos por el trie con el nombre de la carrera |c|,
         volvemos a bajar por el segundo trie con el nombre de la materia |m|,
@@ -160,71 +143,60 @@ public class SistemaSIU {
 
     // Complejidad: O(|c|+ |m|)
     public int[] plantelDocente(String materia, String carrera){
+
         /*Bajamos por el trie con el nombre de la carrera |c|,
         volvemos a bajar por el segundo trie con el nombre de la materia |m|,
         y en O(1) creamos una lista y agregamos 4 elementos.*/
+
         return facultad.obtener(carrera).obtener(materia).plantelDocente();	    
     }
 
     // Complejidad: O(|c|+ |m|)
     public boolean excedeCupo(String materia, String carrera){
         Materia materiaAcomparar = facultad.obtener(carrera).obtener(materia);
+
         /* Bajamos por el trie con el nombre de la carrera |c|,
         volvemos a bajar por el segundo trie con el nombre de la materia |m|,
         guardamos la Materia en una variable, accedemos a la cantidad de alumnos en O(1),
         luego hacemos una cuenta entre variables de Materia, que es O(1),
         y hacemos una comparación entre ints en O(1). */
+        
         return materiaAcomparar.cantidadAlumnosInscriptos() > materiaAcomparar.cupo();	    
     }
 
     // Complejidad: O( ∑ |c|)
     //                c∈C
     public String[] carreras(){ 
-    
-        String[] listaCarreras = new String[this.carreras.size()];
-        
-        carreras.sort(null);
 
-        for (int i = 0; i< carreras.size(); i++) {
-            listaCarreras[i] = carreras.get(i);
-        }
-        
-        return listaCarreras;
-        
+        /* Recorremos todas las claves del Trie y las devolvemos en forma de array con el método inorder en O(|c|),
+        por cada palabra en el trie, por lo que la complejidad total es  O( ∑ |c|)
+                                                                           c∈C
+        */
+
+        return facultad.inorder();
     }
 
     // Complejidad: O( ∑ |c|)
     //                c∈C
     public String[] materias(String carrera){
-        ArrayList<String> lista = new ArrayList<String>(); 
-        for (int i = 0; i < this.infoMaterias.length; i++) {
-            if(this.infoMaterias[i] != null){
-                for (int j = 0; j < this.infoMaterias[i].getParesCarreraMateria().length; j++){
-                    if (this.infoMaterias[i].getParesCarreraMateria()[j].getCarrera() == carrera) {
-                        lista.add(this.infoMaterias[i].getParesCarreraMateria()[j].getNombreMateria());
-                    }
-                }
-            }
-        }
-        
-        lista.sort(null);
 
-        String[] listaMaterias = new String[lista.size()];
-        
-        for (int i = 0; i < lista.size(); i++) {
-            listaMaterias[i] = lista.get(i);
-        }
+        /* Idem anterior, pero primero entramos al trie correspondiente,
+        luego recorremos todas las claves del Trie y las devolvemos en forma de array con el método inorder en O(|c|),
+        por cada palabra en el trie, por lo que la complejidad total es  O( ∑ |c|)
+                                                                           c∈C
+        */
 
-        return listaMaterias;
-    
+        return facultad.obtener(carrera).inorder();
     }
 
     // Complejidad: O(1)
     public int materiasInscriptas(String estudiante){
+
         /* Bajamos por el trie alumnos con el string del estudiante (LU) como clave,	 
         teniendo en cuenta que las LUs están acotadas, se hace en O(1),
         entramos al significado, que es una clase Alumno,
         y devolvemos la cantidad de materias en O(1) ya que la teníamos guardada. */
+
         return alumnos.obtener(estudiante).cantMaterias();	    
     }
 
@@ -251,13 +223,6 @@ public class SistemaSIU {
         while (i < cantNombres) {
             listaPadres.get(i).eliminar(paresCM[i].getNombreMateria());
             i++;
-        }
-
-        // Sacamos la materia de la lista de materias de la facultad.
-        for (int j = 0; j < this.infoMaterias.length; j++) {
-                if (this.infoMaterias[j] != null && this.infoMaterias[j].getParesCarreraMateria() == paresCM) {
-                    this.infoMaterias[j] = null;
-            }   
         }
     }
 }

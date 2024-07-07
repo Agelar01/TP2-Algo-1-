@@ -29,6 +29,10 @@ public class TrieTest<T> {
       assertEquals(false, dicc.esta("bocanada"));
       assertEquals(true, dicc.esta("bocanadas"));
       assertEquals(false, dicc.esta("boquita"));
+
+      String [] claves = new String[] {"boc", "boca", "bocanadas", "bocas", "meji" };
+      assertArrayEquals(claves, dicc.inorder());
+
    }
 
    @Test
