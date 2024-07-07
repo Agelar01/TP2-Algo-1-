@@ -8,7 +8,7 @@ public class Trie<T> implements Diccionario<String, T> {
     Inv de representación: 
         - Todos los nodos tienen un único padre (salvo la raíz, que no tiene padre).
         - Es un árbol.
-        - Todos los nodos, si no tienen hijos, tienen significado (no hay nodos inútiles).
+        - Todos los nodos, si no tienen hijos, tienen significado (no hay nodos sin hijos y sin significado).
     */
 
     private Nodo raiz;

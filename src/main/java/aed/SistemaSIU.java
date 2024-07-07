@@ -74,8 +74,8 @@ public class SistemaSIU {
             }
         }
 
-    // Hasta ahora tenemos la raíz del SistemaSIU que tiene como atributos a un Trie<Alumnos> (cuyas claves son libretas y sus valores ints),
-    // y a un Trie<Materia> (cuyas claves son los nombres de las materias y sus valores, por ahora vacíos, son de la clase Materia),
+    // Hasta ahora tenemos los atributos alumnos, que es un Trie<Alumnos> (cuyas claves son libretas y sus valores ints),
+    // y facultad, que es un Trie<Materia> (cuyas claves son los nombres de las materias y sus valores, por ahora vacíos, son de la clase Materia),
 
     // Nos falta definir las materias de cada carrera:
 
@@ -169,7 +169,7 @@ public class SistemaSIU {
     public String[] carreras(){ 
 
         /* Recorremos todas las claves del Trie y las devolvemos en forma de array con el método inorder en O(|c|),
-        por cada palabra en el trie, por lo que la complejidad total es  O( ∑ |c|)
+        por cada palabra en el Trie, por lo que la complejidad total es  O( ∑ |c|)
                                                                            c∈C
         */
 
@@ -177,13 +177,13 @@ public class SistemaSIU {
     }
 
     // Complejidad: O(|C| + ∑ |m|)
-    //                     m∈C
+    //                    mc∈Mc
     public String[] materias(String carrera){
 
         /* Idem anterior, pero primero entramos al trie correspondiente a la carrera en O(|C|),
-        luego recorremos todas las claves del Trie y las devolvemos en forma de array con el método inorder en O(|m|),
-        por cada palabra en el trie, por lo que la complejidad total es  O(|C|+ ∑ |m|)
-                                                                               m∈C
+        luego recorremos todas las claves del Trie y las devolvemos en forma de array con el método inorder en O(|mc|),
+        por cada palabra en el Trie, por lo que la complejidad total es  O(|C|+ ∑ |m|)
+                                                                              mc∈Mc
         */
 
         return facultad.obtener(carrera).inorder();
@@ -200,8 +200,8 @@ public class SistemaSIU {
         return alumnos.obtener(estudiante).cantMaterias();	    
     }
 
-    // Complejidad: O(|c|+ |m|+∑ |n|+ Em)
-    //                        n∈Nm
+    // Complejidad: O(|c|+ |m| + ∑ |n|+ Em)
+    //                          n∈Nm
     public void cerrarMateria(String materia, String carrera){
         Trie<Materia> carr = facultad.obtener(carrera);
         Materia materiaABorrar = carr.obtener(materia);
