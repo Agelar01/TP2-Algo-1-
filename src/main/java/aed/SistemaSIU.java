@@ -34,8 +34,8 @@ public class SistemaSIU {
 
 
     /*
-    La complejidad del constructor es O( ∑  |c|∗|Mc| + ∑   ∑ |n|+ E)
-                                        c∈C           m∈M n∈Nm
+    La complejidad del constructor es O( ∑ |c|∗|Mc| + ∑    ∑ |n|+ E)
+                                        c∈C          m∈M n∈Nm
     Donde:
      - C es el conjunto de carreras de grado, y c sus elementos;
      - M es el conjunto de todas las materias y m sus elementos;
@@ -94,7 +94,7 @@ public class SistemaSIU {
         this.facultad = facultad;
     }
 
-    //Complejidad: O(|c|+ |m|)
+    //Complejidad: O(|c| + |m|)
     public void inscribir(String estudiante, String carrera, String materia){
 
         facultad.obtener(carrera).obtener(materia).inscribirAlumno(estudiante);
@@ -107,7 +107,7 @@ public class SistemaSIU {
         y luego en o(1) le suma uno a sus materias inscriptas. */
     }
 
-    // Complejidad: O(|c|+ |m|)
+    // Complejidad: O(|c| + |m|)
     public int inscriptos(String materia, String carrera){
 
         /* Primero bajamos por el primer trie con el nombre de la carrera |c|,
@@ -117,7 +117,7 @@ public class SistemaSIU {
         return facultad.obtener(carrera).obtener(materia).cantidadAlumnosInscriptos();    
     }
 
-    // Complejidad: O(|c|+ |m|)
+    // Complejidad: O(|c| + |m|)
     public void agregarDocente(CargoDocente cargo, String carrera, String materia){
         if (cargo == CargoDocente.PROF) {
             facultad.obtener(carrera).obtener(materia).agregarPROF();
@@ -141,7 +141,7 @@ public class SistemaSIU {
         y en O(1) sumamos 1 a la variable correspondiente. */
     }
 
-    // Complejidad: O(|c|+ |m|)
+    // Complejidad: O(|c| + |m|)
     public int[] plantelDocente(String materia, String carrera){
 
         /*Bajamos por el trie con el nombre de la carrera |c|,
@@ -176,14 +176,14 @@ public class SistemaSIU {
         return facultad.inorder();
     }
 
-    // Complejidad: O( ∑ |c|)
-    //                c∈C
+    // Complejidad: O(|C| + ∑ |m|)
+    //                     m∈C
     public String[] materias(String carrera){
 
-        /* Idem anterior, pero primero entramos al trie correspondiente,
-        luego recorremos todas las claves del Trie y las devolvemos en forma de array con el método inorder en O(|c|),
-        por cada palabra en el trie, por lo que la complejidad total es  O( ∑ |c|)
-                                                                           c∈C
+        /* Idem anterior, pero primero entramos al trie correspondiente a la carrera en O(|C|),
+        luego recorremos todas las claves del Trie y las devolvemos en forma de array con el método inorder en O(|m|),
+        por cada palabra en el trie, por lo que la complejidad total es  O(|C|+ ∑ |m|)
+                                                                               m∈C
         */
 
         return facultad.obtener(carrera).inorder();
